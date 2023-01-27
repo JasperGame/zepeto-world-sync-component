@@ -1,7 +1,6 @@
 # zepeto-world-sync-component
 
 ## Intro
-- [ZEPETO 공식 멀티플레이 샘플](https://github.com/naverz/zepeto-multiplay-example의 모든 리소스 및 코드가 포함되어있습니다.
 - 제페토 플랫폼의 유니티 게임 오브젝트에 부착해 멀티 플레이 유저들과 트랜스폼의 위치 및 형태를 쉽게 동기화 할 수 있게 도와주는 컴포넌트입니다.
 - 자주 사용되는 제페토 기본 샘플코드가 포함되어있습니다.
 
@@ -104,7 +103,7 @@
    - **MultiplayerSpawnOnJoinRoom**은 위치와 애니메이션 상태가 동기화되는 멀티 플레이어를 서버 입장때 스폰합니다.
    - MultiplayerSpawnLater는 멀티플레이 캐릭터를 사용하지만 방 접속 시점이 아닌 크리에이터가 지정한 순간부터 동기화합니다. ZepetoPlayersManager.ts의 CreateAllPlayers() 함수를 참고하세요.
 - **position** 관련 프로퍼티는 **TransformSync**와 같습니다. 
-   - 제페토 플레이어는 속도를 기본으로 동기화 하기 때문에 기본 Interpolation 옵션은 **MoveToWard**입니다. 물리적인 외부 충돌을 받아 캐릭터가 움직이는 경우가 잦은경우에만 Estimate를 사용하세요. 
+   - 제페토 플레이어는 속도를 기본으로 동기화 하기 때문에 기본 Interpolation 옵션은 **MoveToWard**입니다. 물리적인 외부 영향을 받아 캐릭터가 움직이는 경우가 잦은경우에만 Estimate를 사용하세요. 
    - 실시간성 외삽이 필요한 러닝게임의 경우 extrapolation을 fixedspeed로 설정합니다. 기본 옵션은 **Disable**입니다. 
 - **SyncGesture**는 **Asset/Resources/** 파일 내부에 들어있는 제스쳐 애니메이션을 동기화합니다. 
    - ZepetoCharacter.SetGesture()으로 호출된 다른 플레이어의 제스쳐를 동기화합니다.
