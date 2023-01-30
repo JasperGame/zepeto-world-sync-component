@@ -23,7 +23,7 @@ export default class extends Sandbox {
             animationParam.MoveProgress = message.animationParam.MoveProgress;
             player.animationParam = animationParam;
 
-            player.gestureName = message.gestureName; // Gesture
+            player.gestureName = message.gestureName; // Gesture Sync
 
             //additional Value
             if(message.playerAdditionalValue != null) {

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MultiplaySync/Demo.unity
     guid: 0b62b70c0a74947afa3f78db49d5de07
   - enabled: 1
+    path: Assets/Scenes/MultiplaySync/PlayerSync.unity
+    guid: e720cf735afb3495f8524dee2432e705
+  - enabled: 1
     path: Assets/Scenes/MultiplaySync/DemoMovingBlock.unity
     guid: d69ff5fd42f3a4573b508acc758378da
   m_configObjects:

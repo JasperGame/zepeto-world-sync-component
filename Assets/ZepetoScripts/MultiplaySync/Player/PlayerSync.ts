@@ -12,16 +12,15 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public isLocal: boolean = false;
     @HideInInspector() public player: Player;
     @HideInInspector() public zepetoPlayer: ZepetoPlayer;
-    @HideInInspector() public m_tfHelper: TransformSyncHelper;
+    @HideInInspector() public tfHelper: TransformSyncHelper;
     @HideInInspector() public isUseInjectSpeed: boolean = false;
+    @HideInInspector() public GetAnimationClipFromResources : boolean = false;
+    @HideInInspector() public UseZepetoGestureAPI: boolean = false;
 
-    @SerializeField() private m_syncGesture: boolean = true;
     private readonly tick: number = 0.04;
     private m_animator: Animator;
     private multiplay: ZepetoWorldMultiplay;
     private room: RoomBase;
-
-    set syncGesture(isSyncGesture:boolean){ this.m_syncGesture = isSyncGesture };
 
     private Start() {
         this.m_animator = this.transform.GetComponentInChildren<Animator>();
@@ -51,13 +50,14 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         this.m_animator.SetFloat("Acceleration", animationParam.Acceleration);
         this.m_animator.SetFloat("MoveProgress", animationParam.MoveProgress);
         
+        //sync gesture
         if (animationParam.State == CharacterState.Gesture) { 
             const clipInfo: AnimatorClipInfo[] = this.m_animator.GetCurrentAnimatorClipInfo(0);
             const gestureName = this.player.gestureName;
             if (clipInfo[0].clip.name == gestureName) return;
             
             let animClip:AnimationClip;
-            if (ZepetoPlayersManager.instance.GestureAPIContents.has(this.player.gestureName)){
+            if ( this.UseZepetoGestureAPI && ZepetoPlayersManager.instance.GestureAPIContents.has(this.player.gestureName)){
                 const content = ZepetoPlayersManager.instance.GestureAPIContents.get(this.player.gestureName);
                 if (!content.IsDownloadedAnimation) {
                     // If the animation has not been downloaded, download it.
@@ -70,7 +70,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                     animClip = content.AnimationClip;
                 }
             }
-            else //resources anim
+            else if(this.GetAnimationClipFromResources)//resources anim
                 animClip = Resources.Load<AnimationClip>(this.player.gestureName);
             
             if (null == animClip) // When the animation is not in the /Asset/Resources file pass
@@ -79,8 +79,9 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                 this.zepetoPlayer.character.SetGesture(animClip);
             }
         }
+        
         if(animationParam.State == CharacterState.Teleport){
-            this.m_tfHelper.ForceTarget();
+            this.tfHelper.ForceTarget();
         }
 
         const playerAdditionalValue = this.player.playerAdditionalValue;
@@ -88,6 +89,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         this.zepetoPlayer.character.additionalRunSpeed = playerAdditionalValue.additionalRunSpeed;
         this.zepetoPlayer.character.additionalJumpPower = playerAdditionalValue.additionalJumpPower;
 
+        //sync interpolation speed
         if(this.isUseInjectSpeed){
             const ySpeed = Mathf.Abs(animationParam.FallSpeed);
             let xzSpeed : number = 0;
@@ -104,7 +106,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
             else
                 return;
             
-            this.m_tfHelper.moveSpeed = xzSpeed+ySpeed;
+            this.tfHelper.moveSpeed = xzSpeed+ySpeed;
         }
     }
 
@@ -129,7 +131,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                 animationParam.Add("MoveProgress", this.m_animator.GetFloat("MoveProgress"));
                 data.Add("animationParam", animationParam.GetObject());
 
-                if (this.m_syncGesture && state === CharacterState.Gesture) {
+                if (state === CharacterState.Gesture && (this.GetAnimationClipFromResources || this.UseZepetoGestureAPI)) {
                     //this.runtimeAnimator.animationClips[1] is always means gesture's clip
                     data.Add("gestureName", this.m_animator.runtimeAnimatorController.animationClips[1].name);
                 }

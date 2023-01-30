@@ -119,8 +119,9 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         playerStateSync.isLocal = isLocal;
         playerStateSync.player = player;
         playerStateSync.zepetoPlayer = zepetoPlayer;
-        playerStateSync.syncGesture = this.GetAnimationClipFromResources || this.UseZepetoGestureAPI;
-        playerStateSync.m_tfHelper = tfHelper;
+        playerStateSync.GetAnimationClipFromResources = this.GetAnimationClipFromResources;
+        playerStateSync.UseZepetoGestureAPI = this.UseZepetoGestureAPI;
+        playerStateSync.tfHelper = tfHelper;
 
         const isUseInjectSpeed:boolean = this.InterpolationType == PositionInterpolationType.MoveToward 
             || this.InterpolationType == PositionInterpolationType.Lerp 
