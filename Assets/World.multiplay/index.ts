@@ -3,7 +3,7 @@ import {Player, sVector3, sQuaternion, SyncTransform, PlayerAdditionalValue, Zep
 
 export default class extends Sandbox {
     private sessionIdQueue: string[] = [];
-    private InstantiateObjs : InstantiateObj[] = [];
+    private InstantiateObjCaches : InstantiateObj[] = [];
     private masterClient = () => this.loadPlayer(this.sessionIdQueue[0]);
 
     onCreate(options: SandboxOptions) {
@@ -82,11 +82,11 @@ export default class extends Sandbox {
                 spawnPosition: message.spawnPosition,
                 spawnRotation: message.spawnRotation,
             };
-            this.InstantiateObjs.push(InstantiateObj);
+            this.InstantiateObjCaches.push(InstantiateObj);
             this.broadcast(MESSAGE.Instantiate, InstantiateObj);
         });
         this.onMessage(MESSAGE.RequestInstantiateCache, (client) => {
-            this.InstantiateObjs.forEach((obj)=>{
+            this.InstantiateObjCaches.forEach((obj)=>{
                 client.send(MESSAGE.Instantiate, obj);
             });
         });
@@ -181,7 +181,7 @@ export default class extends Sandbox {
         if (client.userId) {
             player.zepetoUserId = client.userId;
         }
-        var players = this.state.players;
+        const players = this.state.players;
         players.set(client.sessionId, player);
         if(!this.sessionIdQueue.includes(client.sessionId)) {
             this.sessionIdQueue.push(client.sessionId.toString());

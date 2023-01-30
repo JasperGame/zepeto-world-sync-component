@@ -3,7 +3,7 @@ import {WorldService, ZepetoWorldMultiplay, Content, OfficialContentType, Zepeto
 import {Room} from "ZEPETO.Multiplay";
 import {SpawnInfo, ZepetoPlayer, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {State, Player} from "ZEPETO.Multiplay.Schema";
-import {Object, Quaternion, Vector3, WaitForSeconds} from "UnityEngine";
+import {GameObject, Object, Quaternion, Vector3, WaitForSeconds} from "UnityEngine";
 import PlayerSync from './PlayerSync';
 import TransformSyncHelper,{PositionExtrapolationType, PositionInterpolationType} from '../Transform/TransformSyncHelper';
 
@@ -14,18 +14,16 @@ export enum ZepetoPlayerSpawnType {
     MultiplayerSpawnLater,// When you calling "ZepetoPlayers.instance.CreatePlayerWithUserId()" to another script
 }
 export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
-    public static instance: ZepetoPlayersManager;
-    
     /** Options **/
     @Header("SpawnOption")
     public readonly ZepetoPlayerSpawnType : ZepetoPlayerSpawnType = ZepetoPlayerSpawnType.MultiplayerSpawnOnJoinRoom;
 
     @Header("Position")
     public readonly UseHardSnap: boolean = true;
-    @Tooltip("Force the position to be modified if it is farther than this number.") @SerializeField() private HardSnapIfDistanceGreaterThan: number = 10;
-    public readonly InterpolationType: PositionInterpolationType = PositionInterpolationType.MoveToWard;
+    @Tooltip("Force the position to be modified if it is farther than this number.") @SerializeField() private readonly HardSnapIfDistanceGreaterThan: number = 10;
+    public readonly InterpolationType: PositionInterpolationType = PositionInterpolationType.MoveToward;
     public readonly ExtrapolationType: PositionExtrapolationType = PositionExtrapolationType.Disable;
-    @Tooltip("The creditworthiness of the offset figure of the extrapolation.") @SerializeField() private extraMultipler: number = 1;
+    @Tooltip("The creditworthiness of the offset figure of the extrapolation.") @SerializeField() private readonly extraMultipler: number = 1;
     @Header("Gesture Sync")
     public readonly GetAnimationClipFromResources: boolean = true; // You can synchronize gestures within a resource folder.
     public readonly UseZepetoGestureAPI: boolean = false; // Synchronize the Zepeto World Gesture API animation.
@@ -34,13 +32,24 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     private room: Room;
     private currentPlayers: Map<string, Player> = new Map<string, Player>();
 
+    
     /* Singleton */
+    private static m_instance: ZepetoPlayersManager = null;
+    public static get instance(): ZepetoPlayersManager {
+        if (this.m_instance === null) {
+            this.m_instance = GameObject.FindObjectOfType<ZepetoPlayersManager>();
+            if (this.m_instance === null) {
+                this.m_instance = new GameObject(ZepetoPlayersManager.name).AddComponent<ZepetoPlayersManager>();
+            }
+        }
+        return this.m_instance;
+    }
     private Awake() {
-        if (ZepetoPlayersManager.instance == null) {
-            ZepetoPlayersManager.instance = this;
-            Object.DontDestroyOnLoad(this.gameObject);
+        if (ZepetoPlayersManager.m_instance !== null && ZepetoPlayersManager.m_instance !== this) {
+            GameObject.Destroy(this.gameObject);
         } else {
-            return;
+            ZepetoPlayersManager.m_instance = this;
+            GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -113,7 +122,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         playerStateSync.syncGesture = this.GetAnimationClipFromResources || this.UseZepetoGestureAPI;
         playerStateSync.m_tfHelper = tfHelper;
 
-        const isUseInjectSpeed:boolean = this.InterpolationType == PositionInterpolationType.MoveToWard 
+        const isUseInjectSpeed:boolean = this.InterpolationType == PositionInterpolationType.MoveToward 
             || this.InterpolationType == PositionInterpolationType.Lerp 
             || this.ExtrapolationType == PositionExtrapolationType.FixedSpeed;
         
@@ -127,7 +136,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         //Gesture Type Request
         ZepetoWorldContent.RequestOfficialContentList(OfficialContentType.All, contents => {
             for(let i=0; i<contents.length; i++) {
-                this.GestureAPIContents.set(contents[i].Id,contents[i]);
+                this.GestureAPIContents.set(contents[i].Id, contents[i]);
             }
         });
     }

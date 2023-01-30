@@ -16,13 +16,12 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public isUseInjectSpeed: boolean = false;
 
     @SerializeField() private m_syncGesture: boolean = true;
-    set syncGesture(isSyncGesture:boolean){
-        this.m_syncGesture = isSyncGesture;
-    }    
     private readonly tick: number = 0.04;
     private m_animator: Animator;
     private multiplay: ZepetoWorldMultiplay;
     private room: RoomBase;
+
+    set syncGesture(isSyncGesture:boolean){ this.m_syncGesture = isSyncGesture };
 
     private Start() {
         this.m_animator = this.transform.GetComponentInChildren<Animator>();
@@ -58,7 +57,6 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
             if (clipInfo[0].clip.name == gestureName) return;
             
             let animClip:AnimationClip;
-            
             if (ZepetoPlayersManager.instance.GestureAPIContents.has(this.player.gestureName)){
                 const content = ZepetoPlayersManager.instance.GestureAPIContents.get(this.player.gestureName);
                 if (!content.IsDownloadedAnimation) {
@@ -66,8 +64,8 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                     content.DownloadAnimation(() => {
                         // play animation clip
                         this.zepetoPlayer.character.SetGesture(content.AnimationClip);
-                        return;
-                    });
+                    });                       
+                    return;
                 } else {
                     animClip = content.AnimationClip;
                 }

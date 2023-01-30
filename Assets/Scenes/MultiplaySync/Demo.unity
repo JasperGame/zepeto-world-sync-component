@@ -8884,7 +8884,7 @@ GameObject:
   - component: {fileID: 1414532581}
   - component: {fileID: 1414532583}
   m_Layer: 0
-  m_Name: Multiplay
+  m_Name: WorldMultiplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8940,23 +8940,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - latency
-    - diffServerTime
-    - pingCheckCount
     - multiplay
     - room
+    - m_pingCheckCount
+    - m_latency
+    - m_diffServerTime
     unityValues:
-    - {fileID: 0}
+    - {fileID: 1414532581}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     values:
-    - '{"type":"System.Single, mscorlib","value":"0"}'
-    - '{"type":"System.Single, mscorlib","value":"0"}'
-    - '{"type":"System.Single, mscorlib","value":"0"}'
     - 
     - 
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: daa5246585831481aabbf61fcc5114da, type: 3}
