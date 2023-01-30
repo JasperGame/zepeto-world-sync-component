@@ -4192,13 +4192,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - ZepetoPlayerSpawnType
-    - InterpolationType
-    - ExtrapolationType
+    - UseZepetoGestureAPI
+    - GetAnimationClipFromResources
     - extraMultipler
-    - syncGesture
+    - ExtrapolationType
+    - InterpolationType
     - HardSnapIfDistanceGreaterThan
     - UseHardSnap
+    - ZepetoPlayerSpawnType
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
@@ -4207,14 +4208,16 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 0}
     values:
-    - '{"type":"System.String, mscorlib","value":"2"}'
-    - '{"type":"System.String, mscorlib","value":"2"}'
-    - '{"type":"System.String, mscorlib","value":"0"}'
-    - '{"type":"System.Single, mscorlib","value":"1"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.Single, mscorlib","value":"1"}'
+    - '{"type":"System.String, mscorlib","value":"0"}'
+    - '{"type":"System.String, mscorlib","value":"2"}'
     - '{"type":"System.Single, mscorlib","value":"10"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.String, mscorlib","value":"2"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 6d846a38c15014273bd5ba91998e261d, type: 3}
@@ -11914,7 +11917,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4421517130738087800}
-  m_Mesh: {fileID: 4300000, guid: 66a6727e9b5554aac803b56b11e79827, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 7ecd8d4fdca7442928ced4c69e519a6c, type: 3}
 --- !u!23 &4421517130735823288
 MeshRenderer:
   m_ObjectHideFlags: 0

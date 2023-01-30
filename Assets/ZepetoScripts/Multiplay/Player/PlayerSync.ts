@@ -6,6 +6,7 @@ import { RuntimeAnimatorController, Object, Animator, AnimatorClipInfo, Resource
 import {Player} from 'ZEPETO.Multiplay.Schema';
 import MultiplayManager from '../Common/MultiplayManager';
 import TransformSyncHelper from '../Transform/TransformSyncHelper';
+import ZepetoPlayersManager from './ZepetoPlayersManager';
 
 export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public isLocal: boolean = false;
@@ -53,14 +54,31 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         
         if (animationParam.State == CharacterState.Gesture) { 
             const clipInfo: AnimatorClipInfo[] = this.m_animator.GetCurrentAnimatorClipInfo(0);
-            if (clipInfo[0].clip.name != this.player.gestureName) {
-                const gestureName = this.player.gestureName;
-                const animClip = Resources.Load<AnimationClip>(this.player.gestureName);
-                if (null == animClip) // When the animation is not in the /Asset/Resources file pass
-                    console.warn(`${this.player.gestureName} is null, Add animation in the Resources folder.`);
-                else {
-                    this.zepetoPlayer.character.SetGesture(animClip);
+            const gestureName = this.player.gestureName;
+            if (clipInfo[0].clip.name == gestureName) return;
+            
+            let animClip:AnimationClip;
+            
+            if (ZepetoPlayersManager.instance.GestureAPIContents.has(this.player.gestureName)){
+                const content = ZepetoPlayersManager.instance.GestureAPIContents.get(this.player.gestureName);
+                if (!content.IsDownloadedAnimation) {
+                    // If the animation has not been downloaded, download it.
+                    content.DownloadAnimation(() => {
+                        // play animation clip
+                        this.zepetoPlayer.character.SetGesture(content.AnimationClip);
+                        return;
+                    });
+                } else {
+                    animClip = content.AnimationClip;
                 }
+            }
+            else //resources anim
+                animClip = Resources.Load<AnimationClip>(this.player.gestureName);
+            
+            if (null == animClip) // When the animation is not in the /Asset/Resources file pass
+                console.warn(`${this.player.gestureName} is null, Add animation in the Resources folder.`);
+            else {
+                this.zepetoPlayer.character.SetGesture(animClip);
             }
         }
         if(animationParam.State == CharacterState.Teleport){

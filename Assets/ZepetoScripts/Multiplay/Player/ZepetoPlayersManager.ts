@@ -1,5 +1,5 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import {WorldService, ZepetoWorldMultiplay} from "ZEPETO.World";
+import {WorldService, ZepetoWorldMultiplay, Content, OfficialContentType, ZepetoWorldContent} from "ZEPETO.World";
 import {Room} from "ZEPETO.Multiplay";
 import {SpawnInfo, ZepetoPlayer, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {State, Player} from "ZEPETO.Multiplay.Schema";
@@ -26,8 +26,9 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     public readonly InterpolationType: PositionInterpolationType = PositionInterpolationType.MoveToWard;
     public readonly ExtrapolationType: PositionExtrapolationType = PositionExtrapolationType.Disable;
     @Tooltip("The creditworthiness of the offset figure of the extrapolation.") @SerializeField() private extraMultipler: number = 1;
-    @Header("Gesture")
-    public readonly syncGesture: boolean = true; // You can synchronize gestures within a resource folder.
+    @Header("Gesture Sync")
+    public readonly GetAnimationClipFromResources: boolean = true; // You can synchronize gestures within a resource folder.
+    public readonly UseZepetoGestureAPI: boolean = false; // Synchronize the Zepeto World Gesture API animation.
 
     private multiplay: ZepetoWorldMultiplay;
     private room: Room;
@@ -60,6 +61,9 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
                 ZepetoPlayers.instance.OnAddedPlayer.AddListener((sessionId: string) => {
                     this.AddPlayerSync(sessionId);
                 });
+                if(this.UseZepetoGestureAPI) {
+                    this.ContentRequest();
+                }
                 break;
         }
     }
@@ -106,7 +110,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         playerStateSync.isLocal = isLocal;
         playerStateSync.player = player;
         playerStateSync.zepetoPlayer = zepetoPlayer;
-        playerStateSync.syncGesture = this.syncGesture;
+        playerStateSync.syncGesture = this.GetAnimationClipFromResources || this.UseZepetoGestureAPI;
         playerStateSync.m_tfHelper = tfHelper;
 
         const isUseInjectSpeed:boolean = this.InterpolationType == PositionInterpolationType.MoveToWard 
@@ -116,6 +120,16 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         if(isUseInjectSpeed) {
             playerStateSync.isUseInjectSpeed= true;
         }
+    }
+    
+    public GestureAPIContents:Map<string,Content> =  new Map<string, Content>();
+    private ContentRequest() {
+        //Gesture Type Request
+        ZepetoWorldContent.RequestOfficialContentList(OfficialContentType.All, contents => {
+            for(let i=0; i<contents.length; i++) {
+                this.GestureAPIContents.set(contents[i].Id,contents[i]);
+            }
+        });
     }
     
     private OnJoinPlayer(sessionId: string, player: Player) {
