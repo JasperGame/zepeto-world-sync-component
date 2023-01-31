@@ -3,9 +3,9 @@
 [English](./README.md) | [Korean](./README_KR.md)
 
 ## Overview
-![intro](https://user-images.githubusercontent.com/123578202/214825228-f59ff437-1186-40ed-b32c-0c0c8cce74b9.gif)
+![ezgif com-gif-maker (29)](https://user-images.githubusercontent.com/123578202/215658329-b828b2d9-b17d-4c3d-9e08-34104b2b68da.gif)
 
-- 제페토 플랫폼의 유니티 게임 오브젝트에 부착해 멀티 플레이 유저들과 트랜스폼의 위치 및 형태를 쉽게 동기화 할 수 있게 도와주는 컴포넌트입니다.
+- ZEPETO Multiplay Component는 제페토 멀티플레이 구현시, 플레이어와 오브젝트를 손쉽게 동기화할 수 있게 해주는 컴포넌트입니다.
 - 컴포넌트 형태로 동기화 할 오브젝트에 부착해서 사용하며, **코딩 없이 제페토 멀티플레이**를 구현할 수 있습니다. 
    - 오브젝트의 Transform(위치, 회전, 크기)동기화
    - 오브젝트를 멀티플레이의 환경에서 동적으로 생성 및 파괴   
