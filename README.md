@@ -50,10 +50,10 @@ When merging with an existing project, proceed from step 1 of the guide below, a
    <img width="500" alt="image" src="https://user-images.githubusercontent.com/123578202/215644857-a1d73df3-cdb4-453b-9470-fbab85b30932.png">
    
 3. ZEPETO Player Synchronization    
-   a. ZEPETO -> Add ZepetoPlayers. (The first spawn location of the Zepeto character is the location of the ZepetoPlayers game object.)
-   b. Add the /Assets/ZepetoScripts/MultiplaySync/Player/ZepetoPlayersManager.ts script to the ZepetoPlayers component.   
-   c. If there is no land, add Hireachy -> 3D Object -> Plane and change the position to 0,0,0 and scale to 10,1,10 to create the land.   
-   d. After building the QR, press play to see if each character is synchronized.      
+   a. ZEPETO -> Add ZepetoPlayers. (The first spawn location of the Zepeto character is the location of the ZepetoPlayers game object.)   
+   b. Add the /Assets/ZepetoScripts/MultiplaySync/Player/ZepetoPlayersManager.ts script to the ZepetoPlayers component.    
+   c. If there is no land, add Hireachy -> 3D Object -> Plane and change the position to 0,0,0 and scale to 10,1,10 to create the land.    
+   d. After building the QR, press play to see if each character is synchronized.       
    <img width="500" alt="image" src="https://user-images.githubusercontent.com/123578202/214825381-6551bd7b-a41a-41a6-bbdf-0f8c4bfb2cbb.png">
    
 4. Object synchronization.  
