@@ -35,12 +35,12 @@
 
 ## Easy Start Guide
 It can be easily adapted to your existing multiplayer project or a new one!   
-When merging with an existing project, proceed from step 1 of the guide below, and from step 2 when starting from this project.   
+When merging with an existing project, proceed from step 1 of the guide below, and from step 2 when starting from this project. [Youtube](https://youtu.be/kxEb1SIQCZo)   
 
 1. Merge with an existing project.   
    a. Back up your existing project first.   
    b. Copy the entire ZepetoScripts/MultiplaySync folder and add it to your existing project.   
-   c. Add the following to your Multiplayer Schemas.   
+   c. Add the following to your Multiplayer Schemas.(Type SchemaTypes first and type Room Schema.)
    ![image](https://user-images.githubusercontent.com/123578202/215644692-fa10e5bf-b778-4832-b273-b51acafbae84.png)
 
    d. Remove the script that creates and controls the ZEPETO character (ClientStarterV2 script or CreatePlayerWithUserId corresponds to this.)  
