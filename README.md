@@ -40,9 +40,11 @@ When merging with an existing project, proceed from step 1 of the guide below, a
 1. Merge with an existing project.   
    a. Back up your existing project first.   
    b. Copy the entire ZepetoScripts/MultiplaySync folder and add it to your existing project.   
-   c. Add the following to your Multiplayer Schemas.(Type SchemaTypes first and type Room Schema.)
+   c. Add the following to your Multiplayer Schemas.(Type SchemaTypes first and type Room State.)
    ![image](https://user-images.githubusercontent.com/123578202/215644692-fa10e5bf-b778-4832-b273-b51acafbae84.png)
 
+   > c-tip. If you don't have a server schema that you've created or not, [it's easier to use it](https://github.com/JasperGame/zepeto-world-sync-component/blob/main/Assets/World.multiplay/schemas.json) by opening schema with an editor and use it.
+   
    d. Remove the script that creates and controls the ZEPETO character (ClientStarterV2 script or CreatePlayerWithUserId corresponds to this.)  
    e. Paste the multiplay server code by referring to /Assets/World.multiplay/index.ts in the sample. (Remove the existing character synchronization code and write it) 
 2. Settings   
