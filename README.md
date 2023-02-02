@@ -2,7 +2,7 @@
 
 [English](./README.md) | [Korean](./README_KR.md)
 
-## Overview
+## Overview    [[Youtube]](https://youtu.be/lgO840Gzhx4) 
 ![ezgif com-gif-maker (29)](https://user-images.githubusercontent.com/123578202/215658329-b828b2d9-b17d-4c3d-9e08-34104b2b68da.gif)
 
 - ZEPETO Multiplay Component is a component that makes it easy to synchronize players and objects when implementing ZEPETO Multiplay. 
@@ -35,14 +35,16 @@
 
 ## Easy Start Guide
 It can be easily adapted to your existing multiplayer project or a new one!   
-When merging with an existing project, proceed from step 1 of the guide below, and from step 2 when starting from this project.   
+When merging with an existing project, proceed from step 1 of the guide below, and from step 2 when starting from this project. [Youtube](https://youtu.be/kxEb1SIQCZo)   
 
 1. Merge with an existing project.   
    a. Back up your existing project first.   
    b. Copy the entire ZepetoScripts/MultiplaySync folder and add it to your existing project.   
-   c. Add the following to your Multiplayer Schemas.   
+   c. Add the following to your Multiplayer Schemas.(Type SchemaTypes first and type Room State.)
    ![image](https://user-images.githubusercontent.com/123578202/215644692-fa10e5bf-b778-4832-b273-b51acafbae84.png)
 
+   > c-tip. If you don't have a server schema that you've created or not, [it's easier to use it](https://github.com/JasperGame/zepeto-world-sync-component/blob/main/Assets/World.multiplay/schemas.json) by opening schema with an editor and use it.
+   
    d. Remove the script that creates and controls the ZEPETO character (ClientStarterV2 script or CreatePlayerWithUserId corresponds to this.)  
    e. Paste the multiplay server code by referring to /Assets/World.multiplay/index.ts in the sample. (Remove the existing character synchronization code and write it) 
 2. Settings   
@@ -111,8 +113,8 @@ When merging with an existing project, proceed from step 1 of the guide below, a
       - SoccerBall.ts : Multiplayer Soccer Ball 
       - CoinAcquire.ts : Trigger Coin Acquisition 
       - GestureTrigger.ts : Play floor trigger gestures 
-      - ChickenMove.ts: AI NPCs that move randomly 
-      - InstantiateChicken.ts : instantiate chicken when trigger is hit 
+      - GhostMove.ts: AI NPCs that move randomly 
+      - InstantiateGhost.ts : instantiate ghost when trigger is hit 
       - ScaleUpBalloon: Increase and decrease trigger balloon size 
 
 ## Properties Description

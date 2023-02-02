@@ -2,7 +2,7 @@
 
 [English](./README.md) | [Korean](./README_KR.md)
 
-## Overview
+## Overview  [Youtube](https://youtu.be/lgO840Gzhx4) 
 ![ezgif com-gif-maker (29)](https://user-images.githubusercontent.com/123578202/215658329-b828b2d9-b17d-4c3d-9e08-34104b2b68da.gif)
 
 - ZEPETO Multiplay Component는 제페토 멀티플레이 구현시, 플레이어와 오브젝트를 손쉽게 동기화할 수 있게 해주는 컴포넌트입니다.
@@ -35,12 +35,14 @@
 
 ## Easy Start Guide
 기존 멀티플레이 프로젝트 또는 새 프로젝트에 손 쉽게 적용할 수 있습니다!   
-기존 프로젝트와 병합시 아래 가이드 1번 부터, 이 프로젝트로 부터 시작시 2번 부터 진행해주세요.   
+기존 프로젝트와 병합시 아래 가이드 1번 부터, 이 프로젝트로 부터 시작시 2번 부터 진행해주세요. [Youtube](https://youtu.be/kxEb1SIQCZo)      
 1. 기존 프로젝트와 병합.   
    a. 기존 프로젝트를 우선 백업해주세요.   
    b. ZepetoScripts/MultiplaySync 폴더를 통채로 복사해서 당신의 프로젝트에 추가해주세요.   
-   c. 멀티플레이 Schemas에 다음을 추가 해 주세요.    
+   c. 멀티플레이 Schemas에 다음을 추가 해 주세요. (SchemaTypes를 먼저 타이핑 하고 Room State를 타이핑하세요.)  
    ![image](https://user-images.githubusercontent.com/123578202/215644692-fa10e5bf-b778-4832-b273-b51acafbae84.png)
+   
+   > c-tip. 작성한 서버 스키마가 없거나 적다면, schema를 에디터로 열어 [이걸](https://github.com/JasperGame/zepeto-world-sync-component/blob/main/Assets/World.multiplay/schemas.json) 붙여넣어 사용하는게 더 편해요.
 
    d. 제페토 캐릭터 생성 및 제어를 하는 스크립트를 제거해주세요 (ClientStarterV2 스크립트 혹은 CreatePlayerWithUserId가 이에 해당합니다.)    
    e. 멀티플레이 서버 코드는 샘플의 /Assets/World.multiplay/index.ts 를 참고해서 붙여 넣어 주세요. (기존 캐릭터 동기화 코드를 제거하고 작성하세요).  
@@ -112,8 +114,8 @@
       - SoccerBall.ts : 멀티플레이 축구공
       - CoinAcquire.ts : 트리거 코인 획득
       - GestureTrigger.ts : 바닥 트리거 제스쳐 플레이
-      - ChickenMove.ts: 랜덤하게 움직이는 AI NPC
-      - InstantiateChicken.ts : 트리거에 닿았을 때 닭 인스턴스 생성
+      - GhostMove.ts: 랜덤하게 움직이는 AI NPC
+      - InstantiateGhost.ts : 트리거에 닿았을 때 유령 동적 생성
       - ScaleUpBalloon: 트리거 풍선 크기 증감
 
 ## Properties Description

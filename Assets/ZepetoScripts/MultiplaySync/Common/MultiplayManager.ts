@@ -1,3 +1,14 @@
+/** Version Infos
+ * Github : https://github.com/JasperGame/zepeto-world-sync-component
+ * Please leave the issue of use here. : https://github.com/JasperGame/zepeto-world-sync-component/issues
+ * 
+ * TransformSync : 1.0.0 
+ * DOTweenSync : 1.0.0
+ * ZepetoPlayersManager : 1.0.0
+ * Latest Update Date : 2023.02.02
+ * 
+ */
+
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import {GameObject, Object, Quaternion, Transform, Vector3, WaitForSeconds, WaitUntil, Resources} from 'UnityEngine';
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
