@@ -2,7 +2,7 @@
 
 [English](./README.md) | [Korean](./README_KR.md)
 
-## Overview
+## Overview  [Youtube](https://youtu.be/lgO840Gzhx4) 
 ![ezgif com-gif-maker (29)](https://user-images.githubusercontent.com/123578202/215658329-b828b2d9-b17d-4c3d-9e08-34104b2b68da.gif)
 
 - ZEPETO Multiplay Component는 제페토 멀티플레이 구현시, 플레이어와 오브젝트를 손쉽게 동기화할 수 있게 해주는 컴포넌트입니다.
@@ -114,8 +114,8 @@
       - SoccerBall.ts : 멀티플레이 축구공
       - CoinAcquire.ts : 트리거 코인 획득
       - GestureTrigger.ts : 바닥 트리거 제스쳐 플레이
-      - ChickenMove.ts: 랜덤하게 움직이는 AI NPC
-      - InstantiateChicken.ts : 트리거에 닿았을 때 닭 인스턴스 생성
+      - GhostMove.ts: 랜덤하게 움직이는 AI NPC
+      - InstantiateGhost.ts : 트리거에 닿았을 때 유령 동적 생성
       - ScaleUpBalloon: 트리거 풍선 크기 증감
 
 ## Properties Description
