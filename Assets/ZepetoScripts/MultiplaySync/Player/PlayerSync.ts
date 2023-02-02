@@ -14,7 +14,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public zepetoPlayer: ZepetoPlayer;
     @HideInInspector() public tfHelper: TransformSyncHelper;
     @HideInInspector() public isUseInjectSpeed: boolean = false;
-    @HideInInspector() public GetAnimationClipFromResources : boolean = false;
+    @HideInInspector() public GetAnimationClipFromResources : boolean = true;
     @HideInInspector() public UseZepetoGestureAPI: boolean = false;
 
     private readonly tick: number = 0.04;
@@ -51,7 +51,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         this.m_animator.SetFloat("MoveProgress", animationParam.MoveProgress);
         
         //sync gesture
-        if (animationParam.State == CharacterState.Gesture) { 
+        if (animationParam.State == CharacterState.Gesture && this.UseZepetoGestureAPI || this.GetAnimationClipFromResources ) { 
             const clipInfo: AnimatorClipInfo[] = this.m_animator.GetCurrentAnimatorClipInfo(0);
             const gestureName = this.player.gestureName;
             if (clipInfo[0].clip.name == gestureName) return;
