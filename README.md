@@ -2,7 +2,7 @@
 
 [English](./README.md) | [Korean](./README_KR.md)
 
-## Overview
+## Overview    [[Youtube]](https://youtu.be/lgO840Gzhx4) 
 ![ezgif com-gif-maker (29)](https://user-images.githubusercontent.com/123578202/215658329-b828b2d9-b17d-4c3d-9e08-34104b2b68da.gif)
 
 - ZEPETO Multiplay Component is a component that makes it easy to synchronize players and objects when implementing ZEPETO Multiplay. 
@@ -113,8 +113,8 @@ When merging with an existing project, proceed from step 1 of the guide below, a
       - SoccerBall.ts : Multiplayer Soccer Ball 
       - CoinAcquire.ts : Trigger Coin Acquisition 
       - GestureTrigger.ts : Play floor trigger gestures 
-      - ChickenMove.ts: AI NPCs that move randomly 
-      - InstantiateChicken.ts : instantiate chicken when trigger is hit 
+      - GhostMove.ts: AI NPCs that move randomly 
+      - InstantiateGhost.ts : instantiate ghost when trigger is hit 
       - ScaleUpBalloon: Increase and decrease trigger balloon size 
 
 ## Properties Description
