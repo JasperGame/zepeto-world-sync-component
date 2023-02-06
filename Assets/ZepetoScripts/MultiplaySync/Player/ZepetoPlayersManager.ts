@@ -145,7 +145,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     private OnJoinPlayer(sessionId: string, player: Player) {
         console.log(`[OnJoinPlayer] players - sessionId : ${sessionId}`);
         this.currentPlayers.set(sessionId, player);
-        
+
         if(this.ZepetoPlayerSpawnType == ZepetoPlayerSpawnType.MultiplayerSpawnOnJoinRoom) {
             const spawnInfo = new SpawnInfo();
             spawnInfo.position = this.transform.position;

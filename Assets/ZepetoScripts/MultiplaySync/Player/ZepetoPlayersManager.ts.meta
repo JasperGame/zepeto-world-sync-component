@@ -137,5 +137,5 @@ ScriptedImporter:
     the position to be modified if it is farther than this number.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"","name":"InterpolationType","type":"PositionInterpolationType","isArray":false,"initValue":["MoveToward"],"enumKeys":["None","Lerp","MoveToward","Estimate"],"enumValues":["0","1","2","3"],"attributes":[]},{"assembly":"","name":"ExtrapolationType","type":"PositionExtrapolationType","isArray":false,"initValue":["Disable"],"enumKeys":["Disable","FixedSpeed","Estimate"],"enumValues":["0","1","2"],"attributes":[]},{"assembly":"mscorlib","name":"extraMultipler","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
     creditworthiness of the offset figure of the extrapolation.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"GetAnimationClipFromResources","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Gesture
     Sync\""]}]},{"assembly":"mscorlib","name":"UseZepetoGestureAPI","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"ZepetoPlayersManager","description":""},"isCompiled":true}'
-  typescriptHash: eb78e50553b3d334fe41cedf020d4132
+  typescriptHash: 
   onlyWriteTrigger: 0
