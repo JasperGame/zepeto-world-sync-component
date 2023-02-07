@@ -22,6 +22,6 @@ ScriptedImporter:
     { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
     TriggerActionTest extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start()
     {\r\n    }\r\n    OnActivatedTest() {\r\n        console.warn(\"ACTIVATED\");\r\n   
-    }\r\n}\r\nexports.default = TriggerActionTest;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJpZ2dlckFjdGlvblRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUcmlnZ2VyQWN0aW9uVGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUVyRCxNQUFxQixpQkFBa0IsU0FBUSxxQ0FBcUI7SUFFaEUsS0FBSztJQUVMLENBQUM7SUFFRCxlQUFlO1FBQ1gsT0FBTyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztJQUM5QixDQUFDO0NBRUo7QUFWRCxvQ0FVQyJ9","assetPath":"Assets/InteractionSystem/Scripts/TriggerActionTest.ts","manifest":{"properties":[],"name":"TriggerActionTest","description":""},"isCompiled":true}'
-  typescriptHash: 
+    }\r\n}\r\nexports.default = TriggerActionTest;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJpZ2dlckFjdGlvblRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUcmlnZ2VyQWN0aW9uVGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUVyRCxNQUFxQixpQkFBa0IsU0FBUSxxQ0FBcUI7SUFFaEUsS0FBSztJQUVMLENBQUM7SUFFRCxlQUFlO1FBQ1gsT0FBTyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztJQUM5QixDQUFDO0NBRUo7QUFWRCxvQ0FVQyJ9","assetPath":"Assets/ZepetoInteractionSystem/Scripts/TriggerActionTest.ts","manifest":{"properties":[],"name":"TriggerActionTest","description":""},"isCompiled":true}'
+  typescriptHash: 276ca00e8ac0c0624e72cc1ad468daa7
   onlyWriteTrigger: 0
