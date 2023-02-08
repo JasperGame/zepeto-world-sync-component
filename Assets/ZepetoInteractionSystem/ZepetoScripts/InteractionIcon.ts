@@ -14,10 +14,6 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     @SerializeField() private prefIconCanvas: GameObject;
     @SerializeField() private iconPosition: Transform;
 
-    @Header("[Sound]")
-    @SerializeField() private useSound: boolean = false;
-    @SerializeField() private soundName: string;
-
     private _button: Button;
     private _canvas: Canvas;    
     private _cachedWorldCamera : Camera;
@@ -81,9 +77,6 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     }
 
     private OnClickIcon() {
-        console.log("click!");
-        if (this.useSound) {
-        }
         this.OnClickEvent?.Invoke();
     }
 }

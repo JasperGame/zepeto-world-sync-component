@@ -19,26 +19,45 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    InteractionIcon_1 = require(\"./InteractionIcon\");\r\nconst ZEPETO_Character_Controller_1
-    = require(\"ZEPETO.Character.Controller\");\r\nclass GestureInteraction extends
-    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
-    this._isFirst = true;\r\n    }\r\n    Start() {\r\n        this._interactionIcon
-    = this.transform.GetComponent($typeof(InteractionIcon_1.default));\r\n       
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst InteractionIcon_1 = require(\"./InteractionIcon\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
+    GestureInteraction extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.isSnapBone = true;\r\n       
+    this.maxGesturePlayer = 1;\r\n        this._isFirst = true;\r\n    }\r\n    Start()
+    {\r\n        this._interactionIcon = this.transform.GetComponent($typeof(InteractionIcon_1.default));\r\n       
     ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
     => {\r\n            this._localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
     });\r\n        this._interactionIcon.OnClickEvent.AddListener(() => {\r\n           
-    this._interactionIcon.HideIcon();\r\n            this.SeatChair();\r\n           
-    this.StartCoroutine(this.WaitForExit());\r\n        });\r\n    }\r\n    SeatChair()
-    {\r\n        console.log(\"ASDA\");\r\n        this._localCharacter.transform.position
-    = this.transform.position;\r\n        this._localCharacter.transform.rotation
-    = this.transform.rotation;\r\n        this._localCharacter.SetGesture(this.animationClip);\r\n   
-    }\r\n    StopGesture() {\r\n        this._localCharacter.CancelGesture();\r\n   
-    }\r\n    *WaitForExit() {\r\n        if (this._localCharacter) {\r\n           
-    while (true) {\r\n                if (this._localCharacter.tryJump || this._localCharacter.tryMove)
-    {\r\n                    this._localCharacter.CancelGesture();\r\n                   
-    this._interactionIcon.ShowIcon();\r\n                    break;\r\n               
-    }\r\n                yield;\r\n            }\r\n        }\r\n    }\r\n}\r\nexports.default
-    = GestureInteraction;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2VzdHVyZUludGVyYWN0aW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiR2VzdHVyZUludGVyYWN0aW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsaURBQXFEO0FBQ3JELHVEQUErQztBQUMvQyw2RUFBaUg7QUFFakgsTUFBcUIsa0JBQW1CLFNBQVEscUNBQXFCO0lBQXJFOztRQUlZLGFBQVEsR0FBYSxJQUFJLENBQUM7SUEwQ3RDLENBQUM7SUF2Q1csS0FBSztRQUNULElBQUksQ0FBQyxnQkFBZ0IsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLFlBQVksU0FBQyx5QkFBZSxFQUFHLENBQUM7UUFDdkUsMkNBQWEsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUMsV0FBVyxDQUFDLEdBQUUsRUFBRTtZQUN2RCxJQUFJLENBQUMsZUFBZSxHQUFHLDJDQUFhLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDO1FBQ3BGLENBQUMsQ0FBQyxDQUFDO1FBRUgsSUFBSSxDQUFDLGdCQUFnQixDQUFDLFlBQVksQ0FBQyxXQUFXLENBQUMsR0FBRSxFQUFFO1lBQy9DLElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxRQUFRLEVBQUUsQ0FBQztZQUNqQyxJQUFJLENBQUMsU0FBUyxFQUFFLENBQUM7WUFDakIsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsV0FBVyxFQUFFLENBQUMsQ0FBQztRQUM1QyxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFTyxTQUFTO1FBQ2IsT0FBTyxDQUFDLEdBQUcsQ0FBQyxNQUFNLENBQUMsQ0FBQztRQUNwQixJQUFJLENBQUMsZUFBZSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUM7UUFDbEUsSUFBSSxDQUFDLGVBQWUsQ0FBQyxTQUFTLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDO1FBRWxFLElBQUksQ0FBQyxlQUFlLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQztJQUN4RCxDQUFDO0lBRU8sV0FBVztRQUNmLElBQUksQ0FBQyxlQUFlLENBQUMsYUFBYSxFQUFFLENBQUM7SUFDekMsQ0FBQztJQUVPLENBQUMsV0FBVztRQUVoQixJQUFJLElBQUksQ0FBQyxlQUFlLEVBQUU7WUFDdEIsT0FBTyxJQUFJLEVBQUU7Z0JBQ1QsSUFBSSxJQUFJLENBQUMsZUFBZSxDQUFDLE9BQU8sSUFBSSxJQUFJLENBQUMsZUFBZSxDQUFDLE9BQU8sRUFDaEU7b0JBQ0ksSUFBSSxDQUFDLGVBQWUsQ0FBQyxhQUFhLEVBQUUsQ0FBQztvQkFDckMsSUFBSSxDQUFDLGdCQUFnQixDQUFDLFFBQVEsRUFBRSxDQUFDO29CQUNqQyxNQUFNO2lCQUNUO2dCQUNELEtBQUssQ0FBQzthQUNUO1NBQ0o7SUFDTCxDQUFDO0NBQ0o7QUE5Q0QscUNBOENDIn0=","assetPath":"Assets/ZepetoInteractionSystem/ZepetoScripts/GestureInteraction.ts","manifest":{"properties":[{"assembly":"UnityEngine.AnimationModule","name":"animationClip","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GestureInteraction","description":""},"isCompiled":true}'
-  typescriptHash: cd0866f6aa2c2be53d4edca42580202d
+    this._interactionIcon.HideIcon();\r\n            this.SetGestrue();\r\n           
+    this.StartCoroutine(this.WaitForExit());\r\n        });\r\n    }\r\n    SetGestrue()
+    {\r\n        if (this.isSnapBone) {\r\n            if (this.FindOtherPlayerNum()
+    < this.maxGesturePlayer) {\r\n                this.StartCoroutine(this.SnapBone());\r\n               
+    this._localCharacter.SetGesture(this.animationClip);\r\n            }\r\n           
+    else {\r\n                // The seats are full.\r\n            }\r\n       
+    }\r\n        else {\r\n            this._localCharacter.SetGesture(this.animationClip);\r\n       
+    }\r\n    }\r\n    *SnapBone() {\r\n        const animator = this._localCharacter.ZepetoAnimator;\r\n       
+    const bone = animator.GetBoneTransform(this.bodyBone);\r\n        let idx = 0;\r\n       
+    while (true) {\r\n            this._outPosition = this.transform.position;\r\n           
+    const distance = UnityEngine_1.Vector3.op_Subtraction(bone.position, this._localCharacter.transform.position);\r\n           
+    const newPos = UnityEngine_1.Vector3.op_Subtraction(this.transform.position,
+    distance);\r\n            this._localCharacter.transform.position = newPos;\r\n           
+    this._localCharacter.transform.rotation = this.transform.rotation;\r\n           
+    yield new UnityEngine_1.WaitForEndOfFrame();\r\n            idx++;\r\n           
+    if (idx > 5)\r\n                return;\r\n        }\r\n    }\r\n    FindOtherPlayerNum()
+    {\r\n        const hitInfos = UnityEngine_1.Physics.RaycastAll(this.transform.position,
+    this.transform.TransformDirection(UnityEngine_1.Vector3.up), 0.1);\r\n       
+    let playerNum = 0;\r\n        if (hitInfos.length > 0) {\r\n            hitInfos.forEach((hitInfo)
+    => {\r\n                console.log(hitInfo.distance);\r\n                if
+    (hitInfo.transform.GetComponent($typeof(ZEPETO_Character_Controller_1.ZepetoCharacter)))
+    {\r\n                    playerNum++;\r\n                    console.log(hitInfo.transform.name);\r\n               
+    }\r\n            });\r\n        }\r\n        return playerNum;\r\n    }\r\n   
+    StopGesture() {\r\n        this._localCharacter.CancelGesture();\r\n    }\r\n   
+    *WaitForExit() {\r\n        if (this._localCharacter) {\r\n            while
+    (true) {\r\n                if (this._localCharacter.tryJump || this._localCharacter.tryMove)
+    {\r\n                    this.StopGesture();\r\n                    this.transform.position
+    = this._outPosition;\r\n                    this._interactionIcon.ShowIcon();\r\n                   
+    break;\r\n                }\r\n                yield;\r\n            }\r\n       
+    }\r\n    }\r\n}\r\nexports.default = GestureInteraction;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2VzdHVyZUludGVyYWN0aW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiR2VzdHVyZUludGVyYWN0aW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBVXFCO0FBQ3JCLGlEQUFxRDtBQUNyRCx1REFBK0M7QUFDL0MsNkVBQWlIO0FBRWpILE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFFOEIsZUFBVSxHQUFZLElBQUksQ0FBQztRQUUzQixxQkFBZ0IsR0FBVyxDQUFDLENBQUM7UUFHL0MsYUFBUSxHQUFhLElBQUksQ0FBQztJQXVGdEMsQ0FBQztJQWxGVyxLQUFLO1FBQ1QsSUFBSSxDQUFDLGdCQUFnQixHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsWUFBWSxTQUFDLHlCQUFlLEVBQUcsQ0FBQztRQUN2RSwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRSxFQUFFO1lBQ3ZELElBQUksQ0FBQyxlQUFlLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7UUFDcEYsQ0FBQyxDQUFDLENBQUM7UUFFSCxJQUFJLENBQUMsZ0JBQWdCLENBQUMsWUFBWSxDQUFDLFdBQVcsQ0FBQyxHQUFFLEVBQUU7WUFDL0MsSUFBSSxDQUFDLGdCQUFnQixDQUFDLFFBQVEsRUFBRSxDQUFDO1lBQ2pDLElBQUksQ0FBQyxVQUFVLEVBQUUsQ0FBQztZQUNsQixJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQyxDQUFDO1FBQzVDLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVPLFVBQVU7UUFDZCxJQUFHLElBQUksQ0FBQyxVQUFVLEVBQUU7WUFDaEIsSUFBRyxJQUFJLENBQUMsa0JBQWtCLEVBQUUsR0FBRyxJQUFJLENBQUMsZ0JBQWdCLEVBQUU7Z0JBQ2xELElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLFFB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","assetPath":"Assets/ZepetoInteractionSystem/ZepetoScripts/GestureInteraction.ts","manifest":{"properties":[{"assembly":"UnityEngine.AnimationModule","name":"animationClip","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"isSnapBone","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.AnimationModule","name":"bodyBone","type":"UnityEngine.HumanBodyBones","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"maxGesturePlayer","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GestureInteraction","description":""},"isCompiled":true}'
+  typescriptHash: c64f85920e1df62ea1cec90392a7e832
   onlyWriteTrigger: 0
