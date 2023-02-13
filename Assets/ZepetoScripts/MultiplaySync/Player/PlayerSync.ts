@@ -9,6 +9,8 @@ import TransformSyncHelper from '../Transform/TransformSyncHelper';
 import ZepetoPlayersManager from './ZepetoPlayersManager';
 
 export default class PlayerSync extends ZepetoScriptBehaviour {
+    @Header("Version 1.0.1")
+
     @HideInInspector() public isLocal: boolean = false;
     @HideInInspector() public player: Player;
     @HideInInspector() public zepetoPlayer: ZepetoPlayer;

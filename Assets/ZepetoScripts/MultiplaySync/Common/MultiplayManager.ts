@@ -2,10 +2,7 @@
  * Github : https://github.com/JasperGame/zepeto-world-sync-component
  * Please leave the issue of use here. : https://github.com/JasperGame/zepeto-world-sync-component/issues
  * 
- * TransformSync : 1.0.0 
- * DOTweenSync : 1.0.0
- * ZepetoPlayersManager : 1.0.0
- * Latest Update Date : 2023.02.02
+ * Latest Update Date : 2023.02.13
  * 
  */
 
@@ -18,7 +15,6 @@ import DOTWeenSyncHelper from '../DOTween/DOTWeenSyncHelper';
 import { ZepetoPlayers } from 'ZEPETO.Character.Controller';
 
 export default class MultiplayManager extends ZepetoScriptBehaviour {
-
     public multiplay: ZepetoWorldMultiplay;
     public room: Room;
 
@@ -33,7 +29,6 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
 
     get pingCheckCount(){ return this.m_pingCheckCount; }
     get latency(){ return this.m_latency; }
-
     /* Singleton */
     private static m_instance: MultiplayManager = null;
     public static get instance(): MultiplayManager {
@@ -55,6 +50,8 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
     }
 
     private Start() {
+        this.VersionInfo();
+        
         if(!this.multiplay)
             this.multiplay = this.GetComponent<ZepetoWorldMultiplay>();
         if(!this.multiplay) console.warn("Add ZepetoWorldMultiplay First");
@@ -240,6 +237,15 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         data.Add("Id", id);
         data.Add("Status", status);
         this.room.Send(MESSAGE.SyncTransformStatus, data.GetObject());
+    }
+    
+    @Header("Version 1.0.1")
+    @SerializeField() private seeVersionLog:boolean = false;
+    private VersionInfo(){
+        if(!this.seeVersionLog)
+            return;
+
+        console.warn("MultiplayManager VersionInfos\n* Version 1.0.1\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.13 \n");
     }
 }
 
