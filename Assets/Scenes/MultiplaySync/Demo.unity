@@ -10094,6 +10094,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4564402405903421204, guid: f2416319949504160a9929c374a89384, type: 3}
+      propertyPath: script.values.Array.data[1]
+      value: '{"type":"System.Boolean, mscorlib","value":"True"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564402405903421204, guid: f2416319949504160a9929c374a89384, type: 3}
+      propertyPath: script.values.Array.data[2]
+      value: '{"type":"UnityEngine.HumanBodyBones, UnityEngine.AnimationModule","value":"{\"value__\":0}"}'
+      objectReference: {fileID: 0}
     - target: {fileID: 4564402406870089648, guid: f2416319949504160a9929c374a89384, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -10141,6 +10149,14 @@ PrefabInstance:
     - target: {fileID: 4564402406870089660, guid: f2416319949504160a9929c374a89384, type: 3}
       propertyPath: m_Name
       value: InteractionBench
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564402406936024907, guid: f2416319949504160a9929c374a89384, type: 3}
+      propertyPath: script.values.Array.data[1]
+      value: '{"type":"System.Boolean, mscorlib","value":"True"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564402406936024907, guid: f2416319949504160a9929c374a89384, type: 3}
+      propertyPath: script.values.Array.data[2]
+      value: '{"type":"UnityEngine.HumanBodyBones, UnityEngine.AnimationModule","value":"{\"value__\":0}"}'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2416319949504160a9929c374a89384, type: 3}
