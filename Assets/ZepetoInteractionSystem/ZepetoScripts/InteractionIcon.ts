@@ -7,12 +7,16 @@ import {RoomData} from "ZEPETO.Multiplay";
 import {Delegate, Action$1} from "System";
 
 export default class InteractionIcon extends ZepetoScriptBehaviour {
-    public OnClickEvent:UnityEvent;
-
     /* Icon */
     @Header("[Icon]")
     @SerializeField() private prefIconCanvas: GameObject;
     @SerializeField() private iconPosition: Transform;
+    
+    /* Unity Event */    
+    @Header("[Unity Event]")
+    public OnClickEvent:UnityEvent;
+    public OnTriggerEnterEvent:UnityEvent;
+    public OnTriggerExitEvent:UnityEvent;
 
     private _button: Button;
     private _canvas: Canvas;    

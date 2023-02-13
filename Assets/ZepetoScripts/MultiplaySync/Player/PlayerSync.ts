@@ -54,8 +54,9 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         if (animationParam.State == CharacterState.Gesture && this.UseZepetoGestureAPI || this.GetAnimationClipFromResources ) { 
             const clipInfo: AnimatorClipInfo[] = this.m_animator.GetCurrentAnimatorClipInfo(0);
             const gestureName = this.player.gestureName;
+            if (gestureName == null) return;
             if (clipInfo[0].clip.name == gestureName) return;
-            
+
             let animClip:AnimationClip;
             if ( this.UseZepetoGestureAPI && ZepetoPlayersManager.instance.GestureAPIContents.has(this.player.gestureName)){
                 const content = ZepetoPlayersManager.instance.GestureAPIContents.get(this.player.gestureName);
