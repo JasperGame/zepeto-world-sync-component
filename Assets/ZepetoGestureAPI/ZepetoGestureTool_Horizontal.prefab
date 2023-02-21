@@ -408,7 +408,7 @@ MonoBehaviour:
     - _closeButton
     unityValues:
     - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 7827760777839997555}
     values:
     - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":4,\"type\":\"UnityEngine.Object,
       UnityEngine.CoreModule\",\"isUnity\":true}"}'
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 6580157695349519947}
   - component: {fileID: 6580157695349519944}
   m_Layer: 5
-  m_Name: Text_Gesture (1)
+  m_Name: Text_Gesture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 6580157696219358388}
   - component: {fileID: 6580157696219358389}
   m_Layer: 5
-  m_Name: Text_All (1)
+  m_Name: Text_All
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
