@@ -35,7 +35,7 @@ ScriptedImporter:
     this.rotateSpeed = 100;\r\n        this.SyncScale = false;\r\n        this.ScaleInterpolationType
     = ScaleInterpolationType.Lerp;\r\n        this.scaleUpSpeed = 100;\r\n       
     this.m_isSteadyServerConnect = false;\r\n        this.m_isOwner = false;\r\n       
-    this.m_timeStampCount = 0;\r\n        this.tick = 0.04;\r\n        /** Interpolation
+    this.m_timeStampCount = 0;\r\n        this.tick = 0.08;\r\n        /** Interpolation
     **/\r\n        this.m_lastGetTimeOut = 0.04; //(newGet().timeStamp - prevGet().timeStamp)
     / 1000\r\n        this.m_bufferedState = new Array(2);\r\n        this.newGet
     = () => this.m_bufferedState?.length > 0 ? this.m_bufferedState[0] : null;\r\n       
