@@ -10,28 +10,30 @@ export default class extends Sandbox {
         /**Zepeto Player Sync**/
         this.onMessage(MESSAGE.SyncPlayer, (client, message) => {
             const player = this.state.players.get(client.sessionId);
-            /** State **/
-            //animation param
-            const animationParam = new ZepetoAnimationParam();
-            animationParam.State = message.animationParam.State;
-            animationParam.MoveState = message.animationParam.MoveState;
-            animationParam.JumpState = message.animationParam.JumpState;
-            animationParam.LandingState = message.animationParam.LandingState;
-            animationParam.MotionSpeed = message.animationParam.MotionSpeed;
-            animationParam.FallSpeed = message.animationParam.FallSpeed;
-            animationParam.Acceleration = message.animationParam.Acceleration;
-            animationParam.MoveProgress = message.animationParam.MoveProgress;
-            player.animationParam = animationParam;
+            if(player) {
+                /** State **/
+                //animation param
+                const animationParam = new ZepetoAnimationParam();
+                animationParam.State = message.animationParam.State;
+                animationParam.MoveState = message.animationParam.MoveState;
+                animationParam.JumpState = message.animationParam.JumpState;
+                animationParam.LandingState = message.animationParam.LandingState;
+                animationParam.MotionSpeed = message.animationParam.MotionSpeed;
+                animationParam.FallSpeed = message.animationParam.FallSpeed;
+                animationParam.Acceleration = message.animationParam.Acceleration;
+                animationParam.MoveProgress = message.animationParam.MoveProgress;
+                player.animationParam = animationParam;
 
-            player.gestureName = message.gestureName; // Gesture Sync
+                player.gestureName = message.gestureName; // Gesture Sync
 
-            //additional Value
-            if(message.playerAdditionalValue != null) {
-                const pAdditionalValue = new PlayerAdditionalValue();
-                pAdditionalValue.additionalWalkSpeed = message.playerAdditionalValue.additionalWalkSpeed;
-                pAdditionalValue.additionalRunSpeed = message.playerAdditionalValue.additionalRunSpeed;
-                pAdditionalValue.additionalJumpPower = message.playerAdditionalValue.additionalJumpPower;
-                player.playerAdditionalValue = pAdditionalValue;
+                //additional Value
+                if (message.playerAdditionalValue != null) {
+                    const pAdditionalValue = new PlayerAdditionalValue();
+                    pAdditionalValue.additionalWalkSpeed = message.playerAdditionalValue.additionalWalkSpeed;
+                    pAdditionalValue.additionalRunSpeed = message.playerAdditionalValue.additionalRunSpeed;
+                    pAdditionalValue.additionalJumpPower = message.playerAdditionalValue.additionalJumpPower;
+                    player.playerAdditionalValue = pAdditionalValue;
+                }
             }
         });
 
@@ -68,7 +70,8 @@ export default class extends Sandbox {
         });
         this.onMessage(MESSAGE.SyncTransformStatus, (client, message) => {
             const syncTransform:SyncTransform = this.state.SyncTransforms.get(message.Id);
-            syncTransform.status = message.Status;
+            if(syncTransform)
+                syncTransform.status = message.Status;
         });
 
         this.onMessage(MESSAGE.ChangeOwner, (client,message:string) => {
