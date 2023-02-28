@@ -1,11 +1,3 @@
-/** Version Infos
- * Github : https://github.com/JasperGame/zepeto-world-sync-component
- * Please leave the issue of use here. : https://github.com/JasperGame/zepeto-world-sync-component/issues
- * 
- * Latest Update Date : 2023.02.13
- * 
- */
-
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import {GameObject, Object, Quaternion, Transform, Vector3, WaitForSeconds, WaitUntil, Resources} from 'UnityEngine';
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
@@ -239,13 +231,13 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         this.room.Send(MESSAGE.SyncTransformStatus, data.GetObject());
     }
     
-    @Header("Version 1.0.1")
+    @Header("Version 1.0.2")
     @SerializeField() private seeVersionLog:boolean = false;
     private VersionInfo(){
         if(!this.seeVersionLog)
             return;
 
-        console.warn("MultiplayManager VersionInfos\n* Version 1.0.1\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.13 \n");
+        console.warn("MultiplayManager VersionInfos\n* Version 1.0.2\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.28 \n");
     }
 }
 

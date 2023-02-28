@@ -90,12 +90,12 @@ export default class TransformSyncHelper extends ZepetoScriptBehaviour {
 
     private SyncTransform() {
         this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        if( null != MultiplayManager.instance?.room){
-            this._room = MultiplayManager.instance.room;
+        this._room = MultiplayManager.instance?.room;
+
+        if (this._room != null) {
             this._room.OnStateChange += this.OnStateChange;
-        }
-        else {
-            this._multiplay.RoomJoined += (room: Room) => {
+        } else {
+            this._multiplay.RoomJoined += room => {
                 this._room = room;
                 this._room.OnStateChange += this.OnStateChange;
             };
