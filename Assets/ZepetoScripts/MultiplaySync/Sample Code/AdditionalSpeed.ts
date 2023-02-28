@@ -1,6 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import {Collider, Object} from 'UnityEngine'
-import PlayerSync from '../Player/PlayerSync';
+import { ZepetoCharacter, ZepetoPlayers } from 'ZEPETO.Character.Controller';
 
 export default class AdditionalSpeed extends ZepetoScriptBehaviour {
     //Script that increases the speed when the Zepeto character steps on the trigger.
@@ -10,20 +10,20 @@ export default class AdditionalSpeed extends ZepetoScriptBehaviour {
     @SerializeField() private additionalJumpPower:number = 10;
     
     private OnTriggerEnter(coll: Collider) {
-        if(!coll.GetComponent<PlayerSync>()?.isLocal) {
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
-        let zepCharacter = coll.GetComponent<PlayerSync>().zepetoPlayer.character;
+        let zepCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
         zepCharacter.additionalRunSpeed = this.additionalRunSpeed;
         zepCharacter.additionalWalkSpeed = this.additionalWalkSpeed;
         zepCharacter.additionalJumpPower = this.additionalJumpPower;
     }
     
     private OnTriggerExit(coll: Collider) {
-        if(!coll.GetComponent<PlayerSync>()?.isLocal) {
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
-        let zepCharacter = coll.GetComponent<PlayerSync>().zepetoPlayer.character;
+        let zepCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
         zepCharacter.additionalRunSpeed = 0;
         zepCharacter.additionalWalkSpeed = 0;
         zepCharacter.additionalJumpPower = 0;

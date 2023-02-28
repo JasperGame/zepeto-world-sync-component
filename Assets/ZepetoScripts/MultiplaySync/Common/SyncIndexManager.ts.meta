@@ -24,5 +24,5 @@ ScriptedImporter:
     = SyncIndexManager;\r\n/** This is used to give a unique ID to synchronization
     objects that do not have a separate ID. */\r\nSyncIndexManager.SyncIndex = 0;\r\n//#
     sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3luY0luZGV4TWFuYWdlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlN5bmNJbmRleE1hbmFnZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFFckQsTUFBcUIsZ0JBQWlCLFNBQVEscUNBQXFCOztBQUFuRSxtQ0FJQztBQUhHLGtHQUFrRztBQUNwRiwwQkFBUyxHQUFVLENBQUMsQ0FBQyJ9","assetPath":"Assets/ZepetoScripts/MultiplaySync/Common/SyncIndexManager.ts","manifest":{"properties":[],"name":"SyncIndexManager","description":""},"isCompiled":true}'
-  typescriptHash: 6754e433bc86b18cac14674f3beba63f
+  typescriptHash: 286713e1c9cac7b415727099cc0befaa
   onlyWriteTrigger: 0

@@ -31,7 +31,7 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
     }
     private Start(){
         if(this.leaderboardId == "") {
-            console.error("error!  Leaderboard Id is empty");
+            console.warn("error!  Leaderboard Id is empty");
             const message = "See the docs <color=blue><a>https://naverz-group.readme.io/studio-world/docs/leaderboard</a></color> for more information.";
             console.warn(message);
             return;

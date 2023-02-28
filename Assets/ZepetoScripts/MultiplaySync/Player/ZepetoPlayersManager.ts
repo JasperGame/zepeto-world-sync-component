@@ -28,9 +28,9 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     public readonly GetAnimationClipFromResources: boolean = true; // You can synchronize gestures within a resource folder.
     public readonly UseZepetoGestureAPI: boolean = false; // Synchronize the Zepeto World Gesture API animation.
 
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private currentPlayers: Map<string, Player> = new Map<string, Player>();
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _currentPlayers: Map<string, Player> = new Map<string, Player>();
     
     
     /* Singleton */
@@ -64,10 +64,10 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
                 break;
             case ZepetoPlayerSpawnType.MultiplayerSpawnOnJoinRoom:
             case ZepetoPlayerSpawnType.MultiplayerSpawnLater:
-                this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-                this.multiplay.RoomJoined += (room: Room) => {
-                    this.room = room;
-                    this.room.OnStateChange += this.OnStateChange;
+                this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+                this._multiplay.RoomJoined += (room: Room) => {
+                    this._room = room;
+                    this._room.OnStateChange += this.OnStateChange;
                 }
                 ZepetoPlayers.instance.OnAddedPlayer.AddListener((sessionId: string) => {
                     this.AddPlayerSync(sessionId);
@@ -87,10 +87,10 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     /** multiplayer Spawn **/
     private OnStateChange(state: State, isFirst: boolean) {
         const join = new Map<string, Player>();
-        const leave = new Map<string, Player>(this.currentPlayers);
+        const leave = new Map<string, Player>(this._currentPlayers);
 
         state.players.ForEach((sessionId: string, player: Player) => {
-            if (!this.currentPlayers.has(sessionId)) {
+            if (!this._currentPlayers.has(sessionId)) {
                 join.set(sessionId, player);
             }
             leave.delete(sessionId);
@@ -104,8 +104,8 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     }
     
     private AddPlayerSync(sessionId:string){
-        const isLocal:boolean = this.room.SessionId === sessionId;
-        const player: Player = this.currentPlayers.get(sessionId);
+        const isLocal:boolean = this._room.SessionId === sessionId;
+        const player: Player = this._currentPlayers.get(sessionId);
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(sessionId);
         
         const tfHelper = zepetoPlayer.character.transform.gameObject.AddComponent<TransformSyncHelper>();
@@ -146,19 +146,19 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     
     private OnJoinPlayer(sessionId: string, player: Player) {
         console.log(`[OnJoinPlayer] players - sessionId : ${sessionId}`);
-        this.currentPlayers.set(sessionId, player);
+        this._currentPlayers.set(sessionId, player);
 
         if(this.ZepetoPlayerSpawnType == ZepetoPlayerSpawnType.MultiplayerSpawnOnJoinRoom) {
             const spawnInfo = new SpawnInfo();
             spawnInfo.position = this.transform.position;
             spawnInfo.rotation = this.transform.rotation;
-            const isLocal = this.room.SessionId === player.sessionId;
+            const isLocal = this._room.SessionId === player.sessionId;
             ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
         }
     }
 
     private OnLeavePlayer(sessionId: string, player: Player) {
-        this.currentPlayers.delete(sessionId);
+        this._currentPlayers.delete(sessionId);
         ZepetoPlayers.instance.RemovePlayer(sessionId);
     }
     
@@ -170,8 +170,8 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         const spawnInfo = new SpawnInfo();
         spawnInfo.position = this.transform.position;
         spawnInfo.rotation = this.transform.rotation;
-        this.currentPlayers.forEach((player:Player)=> {
-            const isLocal = this.room.SessionId === player.sessionId;
+        this._currentPlayers.forEach((player:Player)=> {
+            const isLocal = this._room.SessionId === player.sessionId;
             if(!ZepetoPlayers.instance.HasPlayer(player.sessionId)) {
                 console.log(`Spawn ${player.sessionId}`);
                 ZepetoPlayers.instance.CreatePlayerWithUserId(player.sessionId, player.zepetoUserId, spawnInfo, isLocal);
@@ -185,18 +185,18 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
         const spawnInfo = new SpawnInfo();
         spawnInfo.position = this.transform.position;
         spawnInfo.rotation = this.transform.rotation;
-        ZepetoPlayers.instance.CreatePlayerWithUserId(this.room.SessionId, WorldService.userId, spawnInfo, true);
+        ZepetoPlayers.instance.CreatePlayerWithUserId(this._room.SessionId, WorldService.userId, spawnInfo, true);
         
         yield new WaitForSeconds(10);
         this.CreateAllPlayers();
     }
     
-    @Header("Version 1.0.1")
+    @Header("Version 1.0.2")
     @SerializeField() private seeVersionLog:boolean = false;
     private VersionInfo(){
         if(!this.seeVersionLog)
             return;
         
-        console.warn("ZepetoPlayerManager VersionInfos\n* Version 1.0.1\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.13 \n");
+        console.warn("ZepetoPlayerManager VersionInfos\n* Version 1.0.2\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.28 \n");
     }
 }

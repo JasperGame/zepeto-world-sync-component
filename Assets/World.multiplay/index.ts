@@ -44,29 +44,31 @@ export default class extends Sandbox {
                 this.state.SyncTransforms.set(message.Id.toString(), syncTransform);
             }
             const syncTransform:SyncTransform = this.state.SyncTransforms.get(message.Id);
-            syncTransform.Id = message.Id;
-            syncTransform.position = new sVector3();
-            syncTransform.position.x = message.position.x;
-            syncTransform.position.y = message.position.y;
-            syncTransform.position.z = message.position.z;
+            if(syncTransform) {
+                syncTransform.Id = message.Id;
+                syncTransform.position = new sVector3();
+                syncTransform.position.x = message.position.x;
+                syncTransform.position.y = message.position.y;
+                syncTransform.position.z = message.position.z;
 
-            syncTransform.localPosition = new sVector3();
-            syncTransform.localPosition.x = message.localPosition.x;
-            syncTransform.localPosition.y = message.localPosition.y;
-            syncTransform.localPosition.z = message.localPosition.z;
-            
-            syncTransform.rotation = new sQuaternion();
-            syncTransform.rotation.x = message.rotation.x;
-            syncTransform.rotation.y = message.rotation.y;
-            syncTransform.rotation.z = message.rotation.z;
-            syncTransform.rotation.w = message.rotation.w;
-            
-            syncTransform.scale = new sVector3();
-            syncTransform.scale.x = message.scale.x;
-            syncTransform.scale.y = message.scale.y;
-            syncTransform.scale.z = message.scale.z;
-            
-            syncTransform.sendTime = message.sendTime;
+                syncTransform.localPosition = new sVector3();
+                syncTransform.localPosition.x = message.localPosition.x;
+                syncTransform.localPosition.y = message.localPosition.y;
+                syncTransform.localPosition.z = message.localPosition.z;
+
+                syncTransform.rotation = new sQuaternion();
+                syncTransform.rotation.x = message.rotation.x;
+                syncTransform.rotation.y = message.rotation.y;
+                syncTransform.rotation.z = message.rotation.z;
+                syncTransform.rotation.w = message.rotation.w;
+
+                syncTransform.scale = new sVector3();
+                syncTransform.scale.x = message.scale.x;
+                syncTransform.scale.y = message.scale.y;
+                syncTransform.scale.z = message.scale.z;
+
+                syncTransform.sendTime = message.sendTime;
+            }
         });
         this.onMessage(MESSAGE.SyncTransformStatus, (client, message) => {
             const syncTransform:SyncTransform = this.state.SyncTransforms.get(message.Id);

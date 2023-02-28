@@ -1,9 +1,8 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import {Collider, Vector3, Rigidbody, Object, Quaternion} from 'UnityEngine';
-import {ZepetoPlayer} from "ZEPETO.Character.Controller";
+import {ZepetoPlayer, ZepetoPlayers} from "ZEPETO.Character.Controller";
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
 import {Room} from "ZEPETO.Multiplay";
-import PlayerSync from '../Player/PlayerSync';
 import TransformSyncHelper from '../Transform/TransformSyncHelper';
 import MultiplayManager from '../Common/MultiplayManager';
 
@@ -11,16 +10,16 @@ export default class CoinAcquire extends ZepetoScriptBehaviour {
     //A script that triggers the Zepeto character to acquire coins, destroy coins, or move them to new coordinates.
     
     @SerializeField() private useCoinRandomRespawn:boolean = true;
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private m_tfHelper:TransformSyncHelper;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _tfHelper:TransformSyncHelper;
 
     private Start() {
-        this.m_tfHelper = this.GetComponent<TransformSyncHelper>();
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        this.multiplay.RoomJoined += (room: Room) => {
-            this.room= room;
-            this.room.AddMessageHandler("CoinAcquired"+this.m_tfHelper.Id, (AcquiredSessionId:string) => {
+        this._tfHelper = this.GetComponent<TransformSyncHelper>();
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._multiplay.RoomJoined += (room: Room) => {
+            this._room= room;
+            this._room.AddMessageHandler("CoinAcquired"+this._tfHelper.Id, (AcquiredSessionId:string) => {
                 if(this.useCoinRandomRespawn)
                     this.ChangeRandomPosition();
                 else
@@ -28,13 +27,14 @@ export default class CoinAcquire extends ZepetoScriptBehaviour {
             });
         }
     }
-
+ 
     private OnTriggerEnter(coll: Collider) {
-        if(!coll.transform.GetComponent<PlayerSync>()?.isLocal){
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
+        
         //In multi-play, if you want to create a competitive game by winning coins, add the number of coins to the player state.
-        this.multiplay.Room.Send("CoinAcquired", this.m_tfHelper.Id);
+        this._multiplay.Room.Send("CoinAcquired", this._tfHelper.Id);
     }
     
     private ChangeRandomPosition(){

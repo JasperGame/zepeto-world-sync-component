@@ -1,56 +1,57 @@
 import { Collider, Vector3, Rigidbody, Object, Time} from 'UnityEngine';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import {ZepetoPlayer} from "ZEPETO.Character.Controller";
+import {ZepetoPlayer, ZepetoPlayers} from "ZEPETO.Character.Controller";
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
 import {Room} from "ZEPETO.Multiplay";
-import PlayerSync from '../Player/PlayerSync';
 import TransformSyncHelper from '../Transform/TransformSyncHelper';
 
 export default class ScaleUpBalloon extends ZepetoScriptBehaviour {
     // Sample of increasing balloon size when triggered enter
-    @SerializeField() private targetScaleMultipler:number = 1.5;
-    @SerializeField() private scaleUpSpeed:number = 2;
-    @SerializeField() private resetSizeOnOtherPlayer: boolean = true;
+    @SerializeField() private _targetScaleMultipler:number = 1.5;
+    @SerializeField() private _scaleUpSpeed:number = 2;
+    @SerializeField() private _resetSizeOnOtherPlayer: boolean = true;
 
-    private m_tfHelper:TransformSyncHelper;
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private TargetScale:Vector3 = Vector3.one;
+    private _tfHelper:TransformSyncHelper;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _targetScale:Vector3 = Vector3.one;
     
     private Start() {
-        this.m_tfHelper = this.GetComponent<TransformSyncHelper>();
-        this.m_tfHelper.scaleUpSpeed = this.scaleUpSpeed;
+        this._tfHelper = this.GetComponent<TransformSyncHelper>();
+        this._tfHelper.scaleUpSpeed = this._scaleUpSpeed;
         
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        this.multiplay.RoomJoined += (room: Room) => {
-            this.room= room;
-            this.room.AddMessageHandler("ChangeOwner"+this.m_tfHelper.Id, (OwnerSessionId) => {
-                this.m_tfHelper.ChangeOwner(OwnerSessionId.toString());
-                if(this.resetSizeOnOtherPlayer){
-                    this.TargetScale = Vector3.one;
-                    this.transform.localScale = this.TargetScale;
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._multiplay.RoomJoined += (room: Room) => {
+            this._room= room;
+            this._room.AddMessageHandler("ChangeOwner"+this._tfHelper.Id, (ownerSessionId) => {
+                this._tfHelper.ChangeOwner(ownerSessionId.toString());
+                if(this._resetSizeOnOtherPlayer){
+                    this.transform.localScale = Vector3.one;
+                    this._targetScale = Vector3.one * this._targetScaleMultipler;
                 }
             });
         }
     }
     
     private Update(){
-        if(!this.m_tfHelper.isOwner) 
+        if(!this._tfHelper.isOwner) 
             return;
         
-        if(this.transform.localScale != this.TargetScale)
-            this.transform.localScale = Vector3.MoveTowards(this.transform.localScale, this.TargetScale, Time.deltaTime * this.scaleUpSpeed);
+        if(this.transform.localScale != this._targetScale)
+            this.transform.localScale = Vector3.MoveTowards(this.transform.localScale, this._targetScale, Time.deltaTime * this._scaleUpSpeed);
     }
     
     private OnTriggerEnter(coll: Collider) {
-        if(!coll.transform.GetComponent<PlayerSync>()?.isLocal){            
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
-        if(!this.m_tfHelper?.isOwner){
-            this.room.Send("ChangeOwner",this.m_tfHelper.Id);
-        }
         
-        this.TargetScale = this.transform.localScale * this.targetScaleMultipler;
+        if(!this._tfHelper?.isOwner){
+            this._room.Send("ChangeOwner",this._tfHelper.Id);
+        }
+     
+        else
+            this._targetScale = this.transform.localScale * this._targetScaleMultipler;
     }
     
 }

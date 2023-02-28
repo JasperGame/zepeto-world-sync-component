@@ -20,13 +20,14 @@ ScriptedImporter:
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
     { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    UnityEngine_1 = require(\"UnityEngine\");\r\nconst PlayerSync_1 = require(\"../Player/PlayerSync\");\r\nconst
-    MultiplayManager_1 = require(\"../Common/MultiplayManager\");\r\nclass InstantiateGhost
-    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    OnTriggerEnter(coll) {\r\n       
-    if (!coll.transform.GetComponent($typeof(PlayerSync_1.default))?.isLocal) {\r\n           
-    return;\r\n        }\r\n        MultiplayManager_1.default.instance.Instantiate(\"Ghost(TransformSync)\",
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst MultiplayManager_1 = require(\"../Common/MultiplayManager\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
+    InstantiateGhost extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._prefabName = \"Ghost(TransformSync)\";\r\n   
+    }\r\n    OnTriggerEnter(coll) {\r\n        if (coll != ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent($typeof(UnityEngine_1.Collider)))
+    {\r\n            return;\r\n        }\r\n        MultiplayManager_1.default.instance.Instantiate(this._prefabName,
     \"\", UnityEngine_1.Vector3.zero, UnityEngine_1.Quaternion.identity);\r\n   
-    }\r\n}\r\nexports.default = InstantiateGhost;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSW5zdGFudGlhdGVHaG9zdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkluc3RhbnRpYXRlR2hvc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBbUQ7QUFDbkQsNkNBQTREO0FBQzVELHFEQUE4QztBQUM5QyxpRUFBMEQ7QUFFMUQsTUFBcUIsZ0JBQWlCLFNBQVEscUNBQXFCO0lBRXZELGNBQWMsQ0FBQyxJQUFjO1FBQ2pDLElBQUcsQ0FBQyxJQUFJLENBQUMsU0FBUyxDQUFDLFlBQVksU0FBQyxvQkFBVSxFQUFHLEVBQUUsT0FBTyxFQUFDO1lBQ25ELE9BQU87U0FDVjtRQUNELDBCQUFnQixDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsc0JBQXNCLEVBQUMsRUFBRSxFQUFDLHFCQUFPLENBQUMsSUFBSSxFQUFFLHdCQUFVLENBQUMsUUFBUSxDQUFDLENBQUM7SUFDdkcsQ0FBQztDQUNKO0FBUkQsbUNBUUMifQ==","assetPath":"Assets/ZepetoScripts/MultiplaySync/Sample
-    Code/InstantiateGhost.ts","manifest":{"properties":[],"name":"InstantiateGhost","description":""},"isCompiled":true}'
-  typescriptHash: c739fa8e125a05b2a741a4e865941f48
+    }\r\n}\r\nexports.default = InstantiateGhost;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSW5zdGFudGlhdGVHaG9zdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkluc3RhbnRpYXRlR2hvc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBbUQ7QUFDbkQsNkNBQTREO0FBQzVELGlFQUEwRDtBQUMxRCw2RUFBMEQ7QUFFMUQsTUFBcUIsZ0JBQWlCLFNBQVEscUNBQXFCO0lBQW5FOztRQUM4QixnQkFBVyxHQUFVLHNCQUFzQixDQUFBO0lBU3pFLENBQUM7SUFQVyxjQUFjLENBQUMsSUFBYztRQUNqQyxJQUFHLElBQUksSUFBSSwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLEVBQUUsWUFBWSxFQUFFLFNBQVMsQ0FBQyxZQUFZLFNBQUMsc0JBQVEsRUFBRyxFQUFDO1lBQzVGLE9BQU87U0FDVjtRQUVELDBCQUFnQixDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFdBQVcsRUFBQyxFQUFFLEVBQUMscUJBQU8sQ0FBQyxJQUFJLEVBQUUsd0JBQVUsQ0FBQyxRQUFRLENBQUMsQ0FBQztJQUNqRyxDQUFDO0NBQ0o7QUFWRCxtQ0FVQyJ9","assetPath":"Assets/ZepetoScripts/MultiplaySync/Sample
+    Code/InstantiateGhost.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"_prefabName","type":"System.String","isArray":false,"initValue":["Ghost(TransformSync)"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"InstantiateGhost","description":""},"isCompiled":true}'
+  typescriptHash: b989cae0a60619b5a7f6669acb24770e
   onlyWriteTrigger: 0

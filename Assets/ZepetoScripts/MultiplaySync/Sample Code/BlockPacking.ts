@@ -3,66 +3,65 @@ import {Collider, Transform, Vector3, Quaternion, Rigidbody, Object, WaitUntil} 
 import {Room, RoomData} from "ZEPETO.Multiplay";
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
 import {ZepetoCharacter, ZepetoPlayer, ZepetoPlayers} from 'ZEPETO.Character.Controller';
-import {Player, State} from 'ZEPETO.Multiplay.Schema'
-import PlayerSync from '../Player/PlayerSync';
 import DOTWeenSyncHelper from '../DOTween/DOTWeenSyncHelper';
 import TransformSyncHelper from '../Transform/TransformSyncHelper';
 
 export default class BlockPacking extends ZepetoScriptBehaviour {
     //A script in which the Zepeto character is moved the same as the block on a DOTween moving block.
     
-    private m_dtHelper: DOTWeenSyncHelper;
-    private m_tfHelper: TransformSyncHelper;
+    private _dtHelper: DOTWeenSyncHelper;
+    private _tfHelper: TransformSyncHelper;
     
-    private objectId : string;
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private isLocalCharacterOnBlock :boolean = false;
+    private _objectId : string;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _isLocalCharacterOnBlock :boolean = false;
     
     private Start() {
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        this.multiplay.RoomJoined += (room: Room) => {
-            this.room = room;
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._multiplay.RoomJoined += (room: Room) => {
+            this._room = room;
             this.GetObjectId();
 
             //When a new player comes in, send the player information about the currently up blocks.
             ZepetoPlayers.instance.OnAddedPlayer.AddListener((sessionId: string) => {
-                if(this.isLocalCharacterOnBlock) {
+                if(this._isLocalCharacterOnBlock) {
                     const data = new RoomData();
-                    data.Add("transformId", this.objectId);
+                    data.Add("transformId", this._objectId);
                     data.Add("newJoinSessionId", sessionId);
 
-                    this.room.Send("SendBlockEnterCache", data.GetObject());
+                    this._room.Send("SendBlockEnterCache", data.GetObject());
                 }
             });
             
-            this.room.AddMessageHandler("BlockEnter" + this.objectId, (enteredSessionId) => {
+            this._room.AddMessageHandler("BlockEnter" + this._objectId, (enteredSessionId) => {
                 this.StartCoroutine(this.PlayerPacking(enteredSessionId.toString()));
             });
-            this.room.AddMessageHandler("BlockExit" + this.objectId, (exitedSessionId) => {              
+            this._room.AddMessageHandler("BlockExit" + this._objectId, (exitedSessionId) => {              
                 this.StartCoroutine(this.PlayerUnPacking(exitedSessionId.toString()));
             });
         };
     }
     
     private OnTriggerEnter(coll: Collider) {
-        if(!coll.transform.GetComponent<PlayerSync>()?.isLocal){
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
 
-        if(this.isLocalCharacterOnBlock)
+        if(this._isLocalCharacterOnBlock)
             return;
         
-        this.isLocalCharacterOnBlock = true;
-        this.room.Send("BlockEnter", this.objectId);
+        this._isLocalCharacterOnBlock = true;
+        this._room.Send("BlockEnter", this._objectId);
     }
     
     private OnTriggerExit(coll: Collider) {
-        if(!coll.transform.GetComponent<PlayerSync>()?.isLocal){
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
-        this.isLocalCharacterOnBlock = false;
-        this.room.Send("BlockExit", this.objectId);
+        
+        this._isLocalCharacterOnBlock = false;
+        this._room.Send("BlockExit", this._objectId);
     }
 
     private *PlayerPacking(enteredSessionId:string){
@@ -79,14 +78,14 @@ export default class BlockPacking extends ZepetoScriptBehaviour {
     }
     
     private GetObjectId(){
-        this.m_dtHelper = this.GetComponent<DOTWeenSyncHelper>();
-        this.objectId = this.m_dtHelper?.Id;
-        if(!this.objectId) {
-            this.m_tfHelper = this.GetComponent<TransformSyncHelper>();
-            this.objectId = this.m_tfHelper?.Id;
+        this._dtHelper = this.GetComponent<DOTWeenSyncHelper>();
+        this._objectId = this._dtHelper?.Id;
+        if(!this._objectId) {
+            this._tfHelper = this.GetComponent<TransformSyncHelper>();
+            this._objectId = this._tfHelper?.Id;
         }
 
-        if(!this.objectId)
+        if(!this._objectId)
             console.warn(`${this.transform.name} The object must have a DOTweensyncHelper.ts or TransformSyncHelper.ts script.`);
     }
 }

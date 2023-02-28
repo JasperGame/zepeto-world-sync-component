@@ -9,8 +9,6 @@ import TransformSyncHelper from '../Transform/TransformSyncHelper';
 import ZepetoPlayersManager from './ZepetoPlayersManager';
 
 export default class PlayerSync extends ZepetoScriptBehaviour {
-    @Header("Version 1.0.1")
-
     @HideInInspector() public isLocal: boolean = false;
     @HideInInspector() public player: Player;
     @HideInInspector() public zepetoPlayer: ZepetoPlayer;
@@ -19,17 +17,17 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public GetAnimationClipFromResources : boolean = true;
     @HideInInspector() public UseZepetoGestureAPI: boolean = false;
 
-    private readonly tick: number = 0.04;
-    private m_animator: Animator;
-    private multiplay: ZepetoWorldMultiplay;
-    private room: RoomBase;
+    private readonly _tick: number = 0.04;
+    private _animator: Animator;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: RoomBase;
 
     private Start() {
-        this.m_animator = this.transform.GetComponentInChildren<Animator>();
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        this.room = this.multiplay.Room;
+        this._animator = this.transform.GetComponentInChildren<Animator>();
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._room = this._multiplay.Room;
         if (this.isLocal) {
-            this.StartCoroutine(this.SendLocalPlayer(this.tick));
+            this.StartCoroutine(this.SendLocalPlayer(this._tick));
         } else{
             this.player.OnChange += (ChangeValue) => this.OnChangedPlayer();
 
@@ -43,18 +41,18 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         if (this.isLocal) return
         const animationParam = this.player.animationParam;
         
-        this.m_animator.SetInteger("State", animationParam.State);
-        this.m_animator.SetInteger("MoveState", animationParam.MoveState);
-        this.m_animator.SetInteger("JumpState", animationParam.JumpState);
-        this.m_animator.SetInteger("LandingState", animationParam.LandingState);
-        this.m_animator.SetFloat("MotionSpeed", animationParam.MotionSpeed);
-        this.m_animator.SetFloat("FallSpeed", animationParam.FallSpeed);
-        this.m_animator.SetFloat("Acceleration", animationParam.Acceleration);
-        this.m_animator.SetFloat("MoveProgress", animationParam.MoveProgress);
+        this._animator.SetInteger("State", animationParam.State);
+        this._animator.SetInteger("MoveState", animationParam.MoveState);
+        this._animator.SetInteger("JumpState", animationParam.JumpState);
+        this._animator.SetInteger("LandingState", animationParam.LandingState);
+        this._animator.SetFloat("MotionSpeed", animationParam.MotionSpeed);
+        this._animator.SetFloat("FallSpeed", animationParam.FallSpeed);
+        this._animator.SetFloat("Acceleration", animationParam.Acceleration);
+        this._animator.SetFloat("MoveProgress", animationParam.MoveProgress);
         
         //sync gesture
         if (animationParam.State == CharacterState.Gesture && ( this.UseZepetoGestureAPI || this.GetAnimationClipFromResources )) { 
-            const clipInfo: AnimatorClipInfo[] = this.m_animator.GetCurrentAnimatorClipInfo(0);
+            const clipInfo: AnimatorClipInfo[] = this._animator.GetCurrentAnimatorClipInfo(0);
             const gestureName = this.player.gestureName;
             if (gestureName == null) return;
             if (clipInfo[0].clip.name == gestureName) return;
@@ -119,24 +117,24 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         let pastIdleCount:number = 0;
         
         while (true) {
-            const state = this.m_animator.GetInteger("State");
+            const state = this._animator.GetInteger("State");
             // Idle status is sent only once.
             if(state != CharacterState.Idle || pastIdleCount < pastIdleCountMax) {
                 const data = new RoomData();
                 const animationParam = new RoomData();
                 animationParam.Add("State", state);
-                animationParam.Add("MoveState", this.m_animator.GetInteger("MoveState"));
-                animationParam.Add("JumpState", this.m_animator.GetInteger("JumpState"));
-                animationParam.Add("LandingState", this.m_animator.GetInteger("LandingState"));
-                animationParam.Add("MotionSpeed", this.m_animator.GetFloat("MotionSpeed"));
-                animationParam.Add("FallSpeed", this.m_animator.GetFloat("FallSpeed"));
-                animationParam.Add("Acceleration", this.m_animator.GetFloat("Acceleration"));
-                animationParam.Add("MoveProgress", this.m_animator.GetFloat("MoveProgress"));
+                animationParam.Add("MoveState", this._animator.GetInteger("MoveState"));
+                animationParam.Add("JumpState", this._animator.GetInteger("JumpState"));
+                animationParam.Add("LandingState", this._animator.GetInteger("LandingState"));
+                animationParam.Add("MotionSpeed", this._animator.GetFloat("MotionSpeed"));
+                animationParam.Add("FallSpeed", this._animator.GetFloat("FallSpeed"));
+                animationParam.Add("Acceleration", this._animator.GetFloat("Acceleration"));
+                animationParam.Add("MoveProgress", this._animator.GetFloat("MoveProgress"));
                 data.Add("animationParam", animationParam.GetObject());
 
                 if (state === CharacterState.Gesture && (this.GetAnimationClipFromResources || this.UseZepetoGestureAPI)) {
                     //this.runtimeAnimator.animationClips[1] is always means gesture's clip
-                    data.Add("gestureName", this.m_animator.runtimeAnimatorController.animationClips[1].name);
+                    data.Add("gestureName", this._animator.runtimeAnimatorController.animationClips[1].name);
                 }
 
                 const playerAdditionalValue = new RoomData();
@@ -145,7 +143,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                 playerAdditionalValue.Add("additionalJumpPower", this.zepetoPlayer.character.additionalJumpPower);
                 data.Add("playerAdditionalValue", playerAdditionalValue.GetObject());
 
-                this.room?.Send("SyncPlayer", data.GetObject());
+                this._room?.Send("SyncPlayer", data.GetObject());
             }
             if(state == CharacterState.Idle)             //Send 10 more frames even if stopped
                 pastIdleCount++;

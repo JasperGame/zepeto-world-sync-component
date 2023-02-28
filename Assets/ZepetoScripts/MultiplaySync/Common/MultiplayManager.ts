@@ -19,16 +19,16 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
     public room: Room;
 
     @Header("Server connection status (View Only)")
-    @SerializeField() private m_pingCheckCount:number = 0;
-    @SerializeField() private m_latency:number = 0;
-    @SerializeField() private m_diffServerTime:number = 0;
+    @SerializeField() private _pingCheckCount:number = 0;
+    @SerializeField() private _latency:number = 0;
+    @SerializeField() private _diffServerTime:number = 0;
 
-    private masterSessionId:string;
-    private tfHelpers: TransformSyncHelper[] = [];
-    private dtHelpers: DOTWeenSyncHelper[] = [];
+    private _masterSessionId:string;
+    private _tfHelpers: TransformSyncHelper[] = [];
+    private _dtHelpers: DOTWeenSyncHelper[] = [];
 
-    get pingCheckCount(){ return this.m_pingCheckCount; }
-    get latency(){ return this.m_latency; }
+    get pingCheckCount(){ return this._pingCheckCount; }
+    get latency(){ return this._latency; }
     /* Singleton */
     private static m_instance: MultiplayManager = null;
     public static get instance(): MultiplayManager {
@@ -61,7 +61,7 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
             this.CheckMaster();
             this.GetInstantiate();
         }
-        this.dtHelpers = Object.FindObjectsOfType<DOTWeenSyncHelper>();
+        this._dtHelpers = Object.FindObjectsOfType<DOTWeenSyncHelper>();
     }
 
     /**Util**/
@@ -69,15 +69,15 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         this.StartCoroutine(this.WaitPingCheck());
 
         this.room.AddMessageHandler(MESSAGE.MasterResponse, (masterSessionId :string) => {
-            this.masterSessionId = masterSessionId;
-            this.tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
-            this.tfHelpers.forEach((tf)=>{
+            this._masterSessionId = masterSessionId;
+            this._tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
+            this._tfHelpers.forEach((tf)=>{
                 if(tf.UpdateOwnerType == UpdateOwner.Master){
-                    tf.ChangeOwner(this.masterSessionId);
+                    tf.ChangeOwner(this._masterSessionId);
                 }
             });
-            this.dtHelpers.forEach((dt)=>{
-                dt.ChangeOwner(this.masterSessionId);
+            this._dtHelpers.forEach((dt)=>{
+                dt.ChangeOwner(this._masterSessionId);
             });
         });
     }
@@ -102,7 +102,7 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
 
             tf.Id = message.Id;
             if(tf.UpdateOwnerType == UpdateOwner.Master) {
-                tf.ChangeOwner(this.masterSessionId);
+                tf.ChangeOwner(this._masterSessionId);
             }
             else if(message.ownerSessionId){
                 tf.ChangeOwner(message.ownerSessionId);
@@ -167,9 +167,9 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         this.room?.Send(MESSAGE.PauseUser);
 
         this.bPaused = true;
-        this.m_pingCheckCount = 0;
-        this.tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
-        this.tfHelpers.forEach((tf)=> {
+        this._pingCheckCount = 0;
+        this._tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
+        this._tfHelpers.forEach((tf)=> {
             if(tf.UpdateOwnerType == UpdateOwner.Master) {
                 tf.ChangeOwner("");
             }
@@ -177,7 +177,7 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
                 this.SendStatus(tf.Id,GameObjectStatus.Pause);
             }
         });
-        this.dtHelpers.forEach((dt)=> {
+        this._dtHelpers.forEach((dt)=> {
             dt.ChangeOwner("");
         });
     }
@@ -186,8 +186,8 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         this.room?.Send(MESSAGE.UnPauseUser);
 
         this.bPaused = false;
-        this.tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
-        this.tfHelpers.forEach((tf)=>{
+        this._tfHelpers = Object.FindObjectsOfType<TransformSyncHelper>();
+        this._tfHelpers.forEach((tf)=>{
             if(tf.isOwner){
                 this.SendStatus(tf.Id,GameObjectStatus.Enable);
             }
@@ -205,9 +205,9 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
 
         this.room.AddMessageHandler(MESSAGE.CheckServerTimeResponse, (serverTime: number) => {
             ResponseTime = Number(+new Date());
-            this.m_latency = (ResponseTime - RequestTime) / 2
-            this.m_diffServerTime = Number(serverTime) - ResponseTime - this.latency;
-            this.m_pingCheckCount++;
+            this._latency = (ResponseTime - RequestTime) / 2
+            this._diffServerTime = Number(serverTime) - ResponseTime - this.latency;
+            this._pingCheckCount++;
             isResponseDone = true;
         });
 
@@ -229,7 +229,7 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
     }
 
     public GetServerTime(){
-        return this.m_diffServerTime + Number(+new Date());
+        return this._diffServerTime + Number(+new Date());
     }
 
     private SendStatus(id:string, status:GameObjectStatus){

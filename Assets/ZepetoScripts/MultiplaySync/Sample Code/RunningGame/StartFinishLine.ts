@@ -3,47 +3,47 @@ import {Collider, Object, BoxCollider} from "UnityEngine";
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
 import {Room} from "ZEPETO.Multiplay";
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import PlayerSync from '../../Player/PlayerSync';
 import MultiplayManager from '../../Common/MultiplayManager';
 
 export default class StartFinishLine extends ZepetoScriptBehaviour {
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private m_collider : BoxCollider;
-    private m_isStartCheck : boolean;
-    private m_isFinish : boolean;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _collider : BoxCollider;
+    private _isStartCheck : boolean;
+    private _isFinish : boolean;
 
     private Start() {
-        this.m_collider = this.GetComponent<BoxCollider>();
+        this._collider = this.GetComponent<BoxCollider>();
         this.Init();
 
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-        this.multiplay.RoomJoined += (room: Room) => {
-            this.room = room;
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._multiplay.RoomJoined += (room: Room) => {
+            this._room = room;
         };
     }
     
     public Init(){
-        this.m_collider.isTrigger = false;
-        this.m_isStartCheck = false;
-        this.m_isFinish = false;
+        this._collider.isTrigger = false;
+        this._isStartCheck = false;
+        this._isFinish = false;
     }
     
     public StartGame(){
-        this.m_collider.isTrigger = true;
+        this._collider.isTrigger = true;
     }
     
     private OnTriggerEnter(coll: Collider) {
-        if(!coll.transform.GetComponent<PlayerSync>()?.isLocal){
+        if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
-        if(!this.m_isStartCheck) {
-            this.m_isStartCheck = true;
+        
+        if(!this._isStartCheck) {
+            this._isStartCheck = true;
             return;
         }
-        if(!this.m_isFinish) {
-            this.room.Send("FinishPlayer", MultiplayManager.instance.GetServerTime());
-            this.m_isFinish = true;
+        if(!this._isFinish) {
+            this._room.Send("FinishPlayer", MultiplayManager.instance.GetServerTime());
+            this._isFinish = true;
         }    
     }
 

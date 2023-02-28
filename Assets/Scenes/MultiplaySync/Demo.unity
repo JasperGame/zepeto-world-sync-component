@@ -1450,7 +1450,9 @@ MonoBehaviour:
     - UseHardSnap
     - SyncPosition
     - UpdateOwnerType
+    - seeVersionLog
     unityValues:
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -1480,6 +1482,7 @@ MonoBehaviour:
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.String, mscorlib","value":"0"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 5419c5d1d2ede4cde844dd059edfebce, type: 3}
@@ -5511,7 +5514,9 @@ MonoBehaviour:
     - moveSpeed
     - forceReTargetBySeconds
     - forceReTarget
+    - seeVersionLog
     unityValues:
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -5530,6 +5535,7 @@ MonoBehaviour:
     - '{"type":"System.Single, mscorlib","value":"2"}'
     - '{"type":"System.Single, mscorlib","value":"10"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
     unityArrayValues: []
     arrayValues:
     - '{"x":29.299999237060548,"y":3.0,"z":5.0}'
@@ -8631,10 +8637,10 @@ MonoBehaviour:
     keys:
     - multiplay
     - room
-    - m_pingCheckCount
-    - m_latency
-    - m_diffServerTime
     - seeVersionLog
+    - _pingCheckCount
+    - _latency
+    - _diffServerTime
     unityValues:
     - {fileID: 1414532581}
     - {fileID: 0}
@@ -8645,10 +8651,10 @@ MonoBehaviour:
     values:
     - 
     - 
-    - '{"type":"System.Single, mscorlib","value":"0"}'
-    - '{"type":"System.Single, mscorlib","value":"0"}'
-    - '{"type":"System.Single, mscorlib","value":"0"}'
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: daa5246585831481aabbf61fcc5114da, type: 3}
@@ -9486,7 +9492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - m_exGestures
+    - _exGestures
     unityValues:
     - {fileID: 0}
     values:
@@ -11108,14 +11114,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - m_fallCheck
-    - fallCheckObject
+    - _fallCheckObject
+    - _isDestroyable
     unityValues:
-    - {fileID: 0}
     - {fileID: 730804769}
+    - {fileID: 0}
     values:
     - 
-    - 
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: dbb4d5451e86240bca414a2afd36e8c8, type: 3}
@@ -11959,7 +11965,7 @@ GameObject:
   - component: {fileID: 4421517130738087802}
   - component: {fileID: 4421517130738087801}
   m_Layer: 12
-  m_Name: InstantiateNewChicken
+  m_Name: InstantiateGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11978,9 +11984,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script:
-    keys: []
-    unityValues: []
-    values: []
+    keys:
+    - _prefabName
+    unityValues:
+    - {fileID: 0}
+    values:
+    - '{"type":"System.String, mscorlib","value":"Ghost(TransformSync)"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 7f8029d1df5b7474eadb3b4720b3ca19, type: 3}
@@ -12640,6 +12649,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZepetoLeaderBoard
       objectReference: {fileID: 0}
+    - target: {fileID: 8169665730943017077, guid: fdfbf7777178f4193a6a0ea198365842, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdfbf7777178f4193a6a0ea198365842, type: 3}
 --- !u!4 &7282908714177221733
@@ -12752,17 +12765,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - scaleUpSpeed
-    - resetSizeOnOtherPlayer
-    - targetScaleMultipler
+    - _targetScaleMultipler
+    - _scaleUpSpeed
+    - _resetSizeOnOtherPlayer
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     values:
-    - '{"type":"System.Single, mscorlib","value":"2"}'
-    - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.Single, mscorlib","value":"1.5"}'
+    - '{"type":"System.Single, mscorlib","value":"2"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: c96bd45b61046474e89d45f0844ad0d3, type: 3}

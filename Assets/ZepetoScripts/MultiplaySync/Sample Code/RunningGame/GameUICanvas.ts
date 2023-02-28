@@ -15,21 +15,21 @@ export default class GameUICanvas extends ZepetoScriptBehaviour {
     @SerializeField() private interpolationOptionText : Text;
     @SerializeField() private extrapolationOptionText : Text;
 
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
 
     private Start() {
-        this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+        this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
         this.Init();
         
-        this.multiplay.RoomJoined += (room: Room) => {
-            this.room = room;
+        this._multiplay.RoomJoined += (room: Room) => {
+            this._room = room;
             this.startButton.onClick.AddListener(()=>{
-                this.room.Send("StartRunningRequest");
+                this._room.Send("StartRunningRequest");
                 this.startButton.interactable = false;
             });
 
-            this.room.AddMessageHandler("InitRunningGame", (enteredSessionId) => {
+            this._room.AddMessageHandler("InitRunningGame", (enteredSessionId) => {
                 this.Init();
             });
         }

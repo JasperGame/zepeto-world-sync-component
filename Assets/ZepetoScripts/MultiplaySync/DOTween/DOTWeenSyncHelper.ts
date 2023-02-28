@@ -6,8 +6,6 @@ import SyncIndexManager from '../Common/SyncIndexManager';
 import MultiplayManager from '../Common/MultiplayManager';
 
 export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
-    @Header("Version 1.0.1")
-
     /** It is used for game objects that move through a given path.
      * Unlike TransformSync, which updates to the server every tick, it uses optimized server resources 
      * because it synchronizes only once on the first entry and the rest is calculated by the client.
@@ -24,29 +22,29 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
         @SerializeField() private forceReTargetBySeconds: number = 60;
         
     /** multiplay **/
-    private multiplay: ZepetoWorldMultiplay;
-    private room: Room;
-    private m_Id: string;
+    private _multiplay: ZepetoWorldMultiplay;
+    private _room: Room;
+    private _Id: string;
     get Id() {
-        return this.m_Id;
+        return this._Id;
     }
 
     /** DOTWeen **/
-    private nowIndex: number;
-    private nextIndex: number;
-    private onewayloopCount: number;    // one-way number count, One lap => loopCountDouble 2, 
-    private isLoopEnd: boolean;
+    private _nowIndex: number;
+    private _nextIndex: number;
+    private _onewayloopCount: number;    // one-way number count, One lap => loopCountDouble 2, 
+    private _isLoopEnd: boolean;
 
     /** Sync **/
-    private m_isMasterClient: boolean = false;
+    private _isMasterClient: boolean = false;
     get isMasterClient() {
-        return this.m_isMasterClient;
+        return this._isMasterClient;
     }
     set isMasterClient(isMaster :boolean) {
-        this.m_isMasterClient = isMaster;
+        this._isMasterClient = isMaster;
     }
-    private m_diffServerTime: number;
-    private m_sendCoroutine :Coroutine;
+    private _diffServerTime: number;
+    private _sendCoroutine :Coroutine;
     
     private Awake() {
         if (this.TweenPosition.length < 2) {
@@ -61,89 +59,89 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
         this.VersionInfo();
         
         SyncIndexManager.SyncIndex++;
-        this.m_Id = SyncIndexManager.SyncIndex.toString();
+        this._Id = SyncIndexManager.SyncIndex.toString();
         if (this.syncType == SyncType.Sync) {
-            this.multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
-            this.multiplay.RoomJoined += (room: Room) => {
-                this.room = room;
+            this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
+            this._multiplay.RoomJoined += (room: Room) => {
+                this._room = room;
                 this.SyncMessageHandler();
             };
         }
     }
 
     private FixedUpdate() {
-        if (this.isLoopEnd) 
+        if (this._isLoopEnd) 
             return;
 
-        this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.TweenPosition[this.nextIndex], this.moveSpeed * Time.fixedDeltaTime);
-        if (this.transform.localPosition == this.TweenPosition[this.nextIndex]) {
+        this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.TweenPosition[this._nextIndex], this.moveSpeed * Time.fixedDeltaTime);
+        if (this.transform.localPosition == this.TweenPosition[this._nextIndex]) {
             this.GetNextIndex();
         }
     }
 
     private Init() {
         this.transform.localPosition = this.TweenPosition[0];
-        this.nowIndex = 0;
-        this.nextIndex = 1;
-        this.onewayloopCount = 0;
-        this.isLoopEnd = false;
-        this.m_diffServerTime = 0;
+        this._nowIndex = 0;
+        this._nextIndex = 1;
+        this._onewayloopCount = 0;
+        this._isLoopEnd = false;
+        this._diffServerTime = 0;
     }
 
     private GetNextIndex() {            
-        this.nowIndex = this.nextIndex;
+        this._nowIndex = this._nextIndex;
         switch (+this.tweenType) {
             case TweenType.Circulation:
-                if (this.nowIndex == this.TweenPosition.length - 1) {
-                    this.nextIndex = 0;
-                    this.onewayloopCount++;
-                } else if (this.nowIndex == 0) {
-                    this.nextIndex++;
-                    this.onewayloopCount++;
+                if (this._nowIndex == this.TweenPosition.length - 1) {
+                    this._nextIndex = 0;
+                    this._onewayloopCount++;
+                } else if (this._nowIndex == 0) {
+                    this._nextIndex++;
+                    this._onewayloopCount++;
                 } else
-                    this.nextIndex++;
+                    this._nextIndex++;
                 break;
             case TweenType.Linear:
-                if (this.nowIndex == this.TweenPosition.length - 1) {
-                    this.onewayloopCount++;
-                } else if (this.nowIndex == 0) {
-                    this.onewayloopCount++;
+                if (this._nowIndex == this.TweenPosition.length - 1) {
+                    this._onewayloopCount++;
+                } else if (this._nowIndex == 0) {
+                    this._onewayloopCount++;
                 }
-                this.nextIndex = this.onewayloopCount % 2 == 0 ? this.nowIndex + 1 : this.nowIndex - 1;
+                this._nextIndex = this._onewayloopCount % 2 == 0 ? this._nowIndex + 1 : this._nowIndex - 1;
                 break;
             case TweenType.TeleportFirstPoint:
-                if (this.nowIndex == this.TweenPosition.length - 1) {
+                if (this._nowIndex == this.TweenPosition.length - 1) {
                     if (this.loopType != LoopType.JustOneWay) {
                         this.transform.localPosition = this.TweenPosition[0];
-                        this.onewayloopCount++;
+                        this._onewayloopCount++;
                     }
-                    this.nextIndex = 1;
-                    this.onewayloopCount++;
+                    this._nextIndex = 1;
+                    this._onewayloopCount++;
                 } else {
-                    this.nextIndex++;
+                    this._nextIndex++;
                 }
                 break;
         }
-        if (!this.isLoopEnd) {
+        if (!this._isLoopEnd) {
             this.EndCheck();
         }
     }
 
     private SyncMessageHandler() {
-        const ResponseId: string = MESSAGE.ResponsePosition + this.m_Id;
-        this.room.AddMessageHandler(ResponseId, (message: syncTween) => {
+        const ResponseId: string = MESSAGE.ResponsePosition + this._Id;
+        this._room.AddMessageHandler(ResponseId, (message: syncTween) => {
             this.StartCoroutine(this.GetSyncPosition(message));
         });
     }
     
     private *GetSyncPosition(message:syncTween){
-        this.nextIndex = message.nextIndex;
-        this.onewayloopCount = message.loopCount;
+        this._nextIndex = message.nextIndex;
+        this._onewayloopCount = message.loopCount;
         this.EndCheck();
 
         const getPos = new Vector3(message.position.x,message.position.y,message.position.z);
 
-        if (!this.SyncExtrapolation || this.isLoopEnd) {
+        if (!this.SyncExtrapolation || this._isLoopEnd) {
             this.transform.localPosition = getPos;
             return;
         }
@@ -156,10 +154,10 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
     }
     
     private CalculateExtrapolation(getPos:Vector3, latency:number){
-        const dir = Vector3.Normalize(this.TweenPosition[this.nextIndex] - getPos);
+        const dir = Vector3.Normalize(this.TweenPosition[this._nextIndex] - getPos);
 
         let extraOffSet:Vector3 = dir * latency * this.moveSpeed;
-        let posibleMoveSize:number = Vector3.Magnitude(this.TweenPosition[this.nextIndex] - getPos);
+        let posibleMoveSize:number = Vector3.Magnitude(this.TweenPosition[this._nextIndex] - getPos);
         let extraOffsetSize:number = Vector3.Magnitude(extraOffSet);
 
         //Navigating to the next index if it exceeds the acceptable range within one index
@@ -167,9 +165,9 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
             extraOffsetSize -= posibleMoveSize;
 
             this.GetNextIndex();
-            getPos = this.TweenPosition[this.nowIndex];
-            extraOffSet = Vector3.Normalize(this.TweenPosition[this.nextIndex] - getPos) * extraOffsetSize;
-            posibleMoveSize = Vector3.Magnitude(this.TweenPosition[this.nextIndex] - getPos);
+            getPos = this.TweenPosition[this._nowIndex];
+            extraOffSet = Vector3.Normalize(this.TweenPosition[this._nextIndex] - getPos) * extraOffsetSize;
+            posibleMoveSize = Vector3.Magnitude(this.TweenPosition[this._nextIndex] - getPos);
         }
         let EstimatePos = getPos + extraOffSet;
         this.transform.localPosition = EstimatePos;
@@ -177,26 +175,26 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
 
     private EndCheck() {
         if (this.loopType != LoopType.Repeat) {
-            if (this.onewayloopCount >= this.loopType) {
-                this.isLoopEnd = true;
+            if (this._onewayloopCount >= this.loopType) {
+                this._isLoopEnd = true;
             }
         }
     }
     
     public ChangeOwner(ownerSessionId:string){
-        if(null == this.room)
-            this.room = MultiplayManager.instance.room;
-        if(this.room.SessionId == ownerSessionId){
-            if(!this.m_isMasterClient) {
-                this.m_isMasterClient = true;
-                this.m_sendCoroutine = this.StartCoroutine(this.ForceReTargetCoroutine());
+        if(null == this._room)
+            this._room = MultiplayManager.instance.room;
+        if(this._room.SessionId == ownerSessionId){
+            if(!this._isMasterClient) {
+                this._isMasterClient = true;
+                this._sendCoroutine = this.StartCoroutine(this.ForceReTargetCoroutine());
             }
             this.SendPoint();
         }
-        else if(this.room.SessionId != ownerSessionId && this.m_isMasterClient) {
-            this.m_isMasterClient = false;
-            if(null != this.m_sendCoroutine)
-                this.StopCoroutine(this.m_sendCoroutine);
+        else if(this._room.SessionId != ownerSessionId && this._isMasterClient) {
+            this._isMasterClient = false;
+            if(null != this._sendCoroutine)
+                this.StopCoroutine(this._sendCoroutine);
         }
     }
     
@@ -212,7 +210,7 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
 
     private SendPoint() {
         const data = new RoomData();
-        data.Add("Id", this.m_Id);
+        data.Add("Id", this._Id);
 
         const pos = new RoomData();
         pos.Add("x", this.transform.localPosition.x);
@@ -220,20 +218,20 @@ export default class DOTWeenSyncHelper extends ZepetoScriptBehaviour {
         pos.Add("z", this.transform.localPosition.z);
         data.Add("position", pos.GetObject());
 
-        data.Add("nextIndex", this.nextIndex);
-        data.Add("loopCount", this.onewayloopCount);
+        data.Add("nextIndex", this._nextIndex);
+        data.Add("loopCount", this._onewayloopCount);
         data.Add("sendTime", MultiplayManager.instance.GetServerTime());
 
-        this.room?.Send(MESSAGE.SyncDOTween, data.GetObject());
+        this._room?.Send(MESSAGE.SyncDOTween, data.GetObject());
     }
 
-    @Header("Version 1.0.1")
+    @Header("Version 1.0.2")
     @SerializeField() private seeVersionLog:boolean = false;
     private VersionInfo(){
         if(!this.seeVersionLog)
             return;
 
-        console.warn("DOTweenSyncHelper VersionInfos\n* Version 1.0.1\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.13 \n");
+        console.warn("DOTweenSyncHelper VersionInfos\n* Version 1.0.2\n* Github : https://github.com/JasperGame/zepeto-world-sync-component \n* Latest Update Date : 2023.02.28 \n");
     }
 }
 
