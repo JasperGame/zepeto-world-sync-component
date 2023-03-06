@@ -1,0 +1,47 @@
+fileFormatVersion: 2
+guid: b000be380b9044c6db8e92466ea9066e
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Script_Leaderboard_1 = require(\"ZEPETO.Script.Leaderboard\");\r\nclass
+    LeaderboardLayoutManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.leaderboardId
+    = \"\";\r\n    }\r\n    Start() {\r\n    }\r\n    SetSeasonText() {\r\n       
+    ZEPETO_Script_Leaderboard_1.LeaderboardAPI.GetAllLeaderboards(this.OnResult,
+    this.OnError);\r\n    }\r\n    OnResult(result) {\r\n        console.log(`result.isSuccess:
+    ${result.isSuccess}`);\r\n        if (result.leaderboards) {\r\n            for
+    (let i = 0; i < result.leaderboards.length; ++i) {\r\n                const leaderboard
+    = result.leaderboards[i];\r\n                console.log(`i: ${i}, id: ${leaderboard.id},
+    name: ${leaderboard.name} , resetRule: ${leaderboard.resetInfoList[0].resetRule}`);\r\n               
+    switch (leaderboard.resetInfoList[0].resetRule) {\r\n                    case
+    1: //Day\r\n                        this.resetText.text = \"End of Season : Every\"
+    + leaderboard.resetInfoList[0].hour, leaderboard.resetInfoList[0].min;\r\n                       
+    break;\r\n                    case 2: // Week\r\n                        this.resetText.text
+    = \"End of Season : Every\" + leaderboard.resetInfoList[0].weekDay, +leaderboard.resetInfoList[0].hour,
+    leaderboard.resetInfoList[0].min;\r\n                        break;\r\n                   
+    case 3: // Month\r\n                        this.resetText.text = \"End of Season
+    : Every\" + leaderboard.resetInfoList[0].day, +leaderboard.resetInfoList[0].hour,
+    leaderboard.resetInfoList[0].min;\r\n                        break;\r\n                   
+    default:\r\n                        this.resetText.text = \"No reset Rule\";\r\n                       
+    break;\r\n                }\r\n            }\r\n        }\r\n    }\r\n    OnError(error)
+    {\r\n        console.error(error);\r\n    }\r\n}\r\nexports.default = LeaderboardLayoutManager;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTGVhZGVyYm9hcmRMYXlvdXRNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiTGVhZGVyYm9hcmRMYXlvdXRNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsaURBQXFEO0FBQ3JELHlFQUF5RztBQUV6RyxNQUFxQix3QkFBeUIsU0FBUSxxQ0FBcUI7SUFBM0U7O1FBRVcsa0JBQWEsR0FBVyxFQUFFLENBQUM7SUE0Q3RDLENBQUM7SUF6Q0csS0FBSztJQUVMLENBQUM7SUFFTyxhQUFhO1FBQ2pCLDBDQUFjLENBQUMsa0JBQWtCLENBQUMsSUFBSSxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDbkUsQ0FBQztJQUVPLFFBQVEsQ0FBQyxNQUFrQztRQUMvQyxPQUFPLENBQUMsR0FBRyxDQUFDLHFCQUFxQixNQUFNLENBQUMsU0FBUyxFQUFFLENBQUMsQ0FBQztRQUVyRCxJQUFJLE1BQU0sQ0FBQyxZQUFZLEVBQUU7WUFDckIsS0FBSyxJQUFJLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxHQUFHLE1BQU0sQ0FBQyxZQUFZLENBQUMsTUFBTSxFQUFFLEVBQUUsQ0FBQyxFQUFFO2dCQUNqRCxNQUFNLFdBQVcsR0FBRyxNQUFNLENBQUMsWUFBWSxDQUFDLENBQUMsQ0FBQyxDQUFDO2dCQUMzQyxPQUFPLENBQUMsR0FBRyxDQUFDLE1BQU0sQ0FBQyxTQUFTLFdBQVcsQ0FBQyxFQUFFLFdBQVcsV0FBVyxDQUFDLElBQUksaUJBQWlCLFdBQVcsQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDLENBQUMsU0FBUyxFQUFFLENBQUMsQ0FBQztnQkFFaEksUUFBUSxXQUFXLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQyxDQUFDLFNBQVMsRUFBRTtvQkFDNUMsS0FBSyxDQUFDLEVBQUUsS0FBSzt3QkFDVCxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksR0FBRyx1QkFBdUIsR0FBRyxXQUFXLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQyxDQUFDLElBQUksRUFBRSxXQUFXLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQyxDQUFDLEdBQUcsQ0FBQzt3QkFDcEgsTUFBTTtvQkFDVixLQUFLLENBQUMsRUFBRSxPQUFPO3dCQUNYLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxHQUFFLHVCQUF1QixHQUFHLFdBQVcsQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDLENBQUMsT0FBTyxFQUFFLENBQUUsV0FBVyxDQUFDLGFBQWEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLEVBQUUsV0FBVyxDQUFDLGFBQWEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUM7d0JBQzNKLE1BQU07b0JBQ1YsS0FBSyxDQUFDLEVBQUUsUUFBUTt3QkFDWixJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksR0FBRyx1QkFBdUIsR0FBRyxXQUFXLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQyxDQUFDLEdBQUcsRUFBRSxDQUFFLFdBQVcsQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxFQUFFLFdBQVcsQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDLENBQUMsR0FBRyxDQUFDO3dCQUN4SixNQUFNO29CQUNWO3dCQUNJLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxHQUFHLGVBQWUsQ0FBQzt3QkFDdEMsTUFBTTtpQkFDYjthQUVKO1NBQ0o7SUFDTCxDQUFDO0lBRU8sT0FBTyxDQUFDLEtBQWE7UUFDekIsT0FBTyxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUN6QixDQUFDO0NBSUo7QUE5Q0QsMkNBOENDIn0=","assetPath":"Assets/ZepetoLeaderBoard/Script/LeaderboardLayoutManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"leaderboardId","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"resetText","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"LeaderboardLayoutManager","description":""},"isCompiled":true}'
+  typescriptHash: 703bcc06cea51373de6b5ff393d7aea2
+  onlyWriteTrigger: 0
