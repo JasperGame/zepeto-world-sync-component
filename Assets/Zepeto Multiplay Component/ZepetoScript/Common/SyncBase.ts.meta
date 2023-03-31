@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: 9054aec2b2ddb4b16aab9808ff5dd499
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_World_1 = require(\"ZEPETO.World\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    SyncIndexManager_1 = require(\"./SyncIndexManager\");\r\nconst MultiplayManager_1
+    = require(\"./MultiplayManager\");\r\nclass SyncBase extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    get Id() {\r\n        return this._Id;\r\n    }\r\n    Start() {\r\n       
+    if (!this._Id) {\r\n            SyncIndexManager_1.default.SyncIndex++;\r\n           
+    this._Id = SyncIndexManager_1.default.SyncIndex.toString();\r\n        }\r\n       
+    this._room = MultiplayManager_1.default.instance?.room;\r\n        if (this._room
+    != null) {\r\n            //this._room.OnStateChange += this.OnStateChange;\r\n       
+    }\r\n        else {\r\n            this._multiplay.add_RoomJoined(room => {\r\n               
+    this._room = room;\r\n                //this._room.OnStateChange += this.OnStateChange;\r\n           
+    });\r\n        }\r\n        this._multiplay = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_World_1.ZepetoWorldMultiplay));\r\n       
+    this._multiplay.add_RoomJoined((room) => {\r\n            this._room = room;\r\n       
+    });\r\n    }\r\n}\r\nexports.default = SyncBase;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3luY0Jhc2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJTeW5jQmFzZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUNyRCwrQ0FBa0Q7QUFFbEQsNkNBQW1DO0FBQ25DLHlEQUFrRDtBQUNsRCx5REFBa0Q7QUFFbEQsTUFBcUIsUUFBUyxTQUFRLHFDQUFxQjtJQU12RCxJQUFJLEVBQUU7UUFDRixPQUFPLElBQUksQ0FBQyxHQUFHLENBQUM7SUFDcEIsQ0FBQztJQUVPLEtBQUs7UUFDVCxJQUFHLENBQUMsSUFBSSxDQUFDLEdBQUcsRUFBRTtZQUNWLDBCQUFnQixDQUFDLFNBQVMsRUFBRSxDQUFDO1lBQzdCLElBQUksQ0FBQyxHQUFHLEdBQUcsMEJBQWdCLENBQUMsU0FBUyxDQUFDLFFBQVEsRUFBRSxDQUFDO1NBQ3BEO1FBQ0QsSUFBSSxDQUFDLEtBQUssR0FBRywwQkFBZ0IsQ0FBQyxRQUFRLEVBQUUsSUFBSSxDQUFDO1FBRTdDLElBQUksSUFBSSxDQUFDLEtBQUssSUFBSSxJQUFJLEVBQUU7WUFDcEIsaURBQWlEO1NBQ3BEO2FBQU07WUFDSCxJQUFJLENBQUMsVUFBVSxnQkFBZSxJQUFJLENBQUMsRUFBRTtnQkFDakMsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUM7Z0JBQ2xCLGlEQUFpRDtZQUNyRCxDQUFDLEVBQUM7U0FDTDtRQUNELElBQUksQ0FBQyxVQUFVLEdBQUcsb0JBQU0sQ0FBQyxnQkFBZ0IsU0FBQyxtQ0FBb0IsRUFBRyxDQUFDO1FBQ2xFLElBQUksQ0FBQyxVQUFVLGdCQUFlLENBQUMsSUFBVSxFQUFFLEVBQUU7WUFDekMsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUM7UUFDdEIsQ0FBQyxFQUFDO0lBQ04sQ0FBQztDQUNKO0FBOUJELDJCQThCQyJ9","assetPath":"Assets/Zepeto
+    Multiplay Component/ZepetoScript/Common/SyncBase.ts","manifest":{"properties":[],"name":"SyncBase","description":""},"isCompiled":true}'
+  typescriptHash: a855d9fa36a6c5d02ccd5e0b74dd205f
+  onlyWriteTrigger: 0
