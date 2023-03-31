@@ -47,6 +47,19 @@ export default class SyncComponentModule extends IModule {
             }
         });
 
+        this.server.onMessage(MESSAGE.SyncAnimator, (client, message) => {
+            const animator: SyncAnimator = {
+                Id: message.Id,
+                clipName: message.clipName,
+                clipTime: message.clipTime,
+                sendTime: message.sendTime
+            };
+            const masterClient = this.masterClient();
+            if (masterClient !== null && masterClient !== undefined) {
+                this.server.broadcast(MESSAGE.ResponseAnimator + message.Id, animator, {except: masterClient});
+            }
+        });
+        
         /** SyncTransform Util **/
         this.server.onMessage(MESSAGE.ChangeOwner, (client,message:string) => {
             this.server.broadcast(MESSAGE.ChangeOwner+message, client.sessionId);
@@ -182,6 +195,13 @@ interface syncTween {
     sendTime: number,
 }
 
+interface SyncAnimator {
+    Id: string,
+    clipName: number,
+    clipTime: number,
+    sendTime: number,
+}
+
 interface InstantiateObj{
     Id:string;
     prefabName:string;
@@ -223,5 +243,7 @@ enum MESSAGE {
     FinishPlayer = "FinishPlayer",
     FirstPlayerGetIn = "FirstPlayerGetIn",
     CountDownStart = "CountDownStart",
-    ResponseGameReport = "ResponseGameReport"
+    ResponseGameReport = "ResponseGameReport",
+    SyncAnimator = "SyncAnimator",
+    ResponseAnimator = "ResponseAnimator"
 }
