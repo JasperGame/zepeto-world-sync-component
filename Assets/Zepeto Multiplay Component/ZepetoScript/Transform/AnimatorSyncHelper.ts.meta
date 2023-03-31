@@ -1,0 +1,47 @@
+fileFormatVersion: 2
+guid: b8cdf2ca095fa4b65a277da8f0d19d4d
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Multiplay_1 = require(\"ZEPETO.Multiplay\");\r\nconst
+    MultiplayManager_1 = require(\"../Common/MultiplayManager\");\r\nconst ZEPETO_World_1
+    = require(\"ZEPETO.World\");\r\nconst SyncIndexManager_1 = require(\"../Common/SyncIndexManager\");\r\nclass
+    AnimatorSyncHelper extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    get
+    Id() {\r\n        return this._Id;\r\n    }\r\n    Start() {\r\n        this._animator
+    = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n        SyncIndexManager_1.default.SyncIndex++;\r\n       
+    this._Id = SyncIndexManager_1.default.SyncIndex.toString();\r\n        this._multiplay
+    = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_World_1.ZepetoWorldMultiplay));\r\n       
+    this._multiplay.add_RoomJoined((room) => {\r\n            this._room = room;\r\n           
+    this.SyncMessageHandler();\r\n        });\r\n    }\r\n    Update() {\r\n    }\r\n   
+    SyncMessageHandler() {\r\n        const ResponseId = \"AnimatorSync\" + this._Id;\r\n       
+    this._room.AddMessageHandler(ResponseId, (message) => {\r\n            this.StartCoroutine(this.GetSyncPosition(message));\r\n       
+    });\r\n    }\r\n    SendAnimator() {\r\n        this.stateInfo = this._animator.GetCurrentAnimatorStateInfo(0);\r\n       
+    const clipName = this.stateInfo.shortNameHash;\r\n        const clipTime = this.stateInfo.normalizedTime
+    * this.stateInfo.length;\r\n        const data = new ZEPETO_Multiplay_1.RoomData();\r\n       
+    data.Add(\"Id\", this._Id);\r\n        data.Add(\"clipName\", clipName);\r\n       
+    data.Add(\"clipTime\", clipTime);\r\n        data.Add(\"sendTime\", MultiplayManager_1.default.instance.GetServerTime());\r\n       
+    this._room?.Send(\"AnimatorSync\", data.GetObject());\r\n    }\r\n    *GetSyncPosition(message)
+    {\r\n        const latency = (MultiplayManager_1.default.instance.GetServerTime()
+    - Number(message.sendTime)) / 1000;\r\n        this._animator.Play(message.clipName,
+    0, message.clipTime + latency);\r\n    }\r\n}\r\nexports.default = AnimatorSyncHelper;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQW5pbWF0b3JTeW5jSGVscGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQW5pbWF0b3JTeW5jSGVscGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZDQUFnRztBQUNoRyx1REFBZ0Q7QUFDaEQsaUVBQTBEO0FBQzFELCtDQUFrRDtBQUNsRCxpRUFBMEQ7QUFFMUQsTUFBcUIsa0JBQW1CLFNBQVEscUNBQXFCO0lBU2pFLElBQUksRUFBRTtRQUNGLE9BQU8sSUFBSSxDQUFDLEdBQUcsQ0FBQztJQUNwQixDQUFDO0lBR08sS0FBSztRQUNULElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLHNCQUFRLEVBQUcsQ0FBQztRQUV6RCwwQkFBZ0IsQ0FBQyxTQUFTLEVBQUUsQ0FBQztRQUM3QixJQUFJLENBQUMsR0FBRyxHQUFHLDBCQUFnQixDQUFDLFNBQVMsQ0FBQyxRQUFRLEVBQUUsQ0FBQztRQUNqRCxJQUFJLENBQUMsVUFBVSxHQUFHLG9CQUFNLENBQUMsZ0JBQWdCLFNBQUMsbUNBQW9CLEVBQUcsQ0FBQztRQUNsRSxJQUFJLENBQUMsVUFBVSxnQkFBZSxDQUFDLElBQVUsRUFBRSxFQUFFO1lBQ3pDLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDO1lBQ2xCLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDO1FBQzlCLENBQUMsRUFBQztJQUNOLENBQUM7SUFDTyxNQUFNO0lBRWQsQ0FBQztJQUVPLGtCQUFrQjtRQUN0QixNQUFNLFVBQVUsR0FBVyxjQUFjLEdBQUcsSUFBSSxDQUFDLEdBQUcsQ0FBQztRQUNyRCxJQUFJLENBQUMsS0FBSyxDQUFDLGlCQUFpQixDQUFDLFVBQVUsRUFBRSxDQUFDLE9BQXFCLEVBQUUsRUFBRTtZQUMvRCxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQztRQUN2RCxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFTyxZQUFZO1FBQ2hCLElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQywyQkFBMkIsQ0FBQyxDQUFDLENBQUMsQ0FBQztRQUMvRCxNQUFNLFFBQVEsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLGFBQWEsQ0FBQztRQUM5QyxNQUFNLFFBQVEsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sQ0FBQztRQUV2RSxNQUFNLElBQUksR0FBRyxJQUFJLDJCQUFRLEVBQUUsQ0FBQztRQUM1QixJQUFJLENBQUMsR0FBRyxDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUM7UUFDekIsSUFBSSxDQUFDLEdBQUcsQ0FBQyxVQUFVLEVBQUUsUUFBUSxDQUFDLENBQUM7UUFDL0IsSUFBSSxDQUFDLEdBQUcsQ0FBQyxVQUFVLEVBQUUsUUFBUSxDQUFDLENBQUM7UUFDL0IsSUFBSSxDQUFDLEdBQUcsQ0FBQyxVQUFVLEVBQUUsMEJBQWdCLENBQUMsUUFBUSxDQUFDLGFBQWEsRUFBRSxDQUFDLENBQUM7UUFFaEUsSUFBSSxDQUFDLEtBQUssRUFBRSxJQUFJLENBQUMsY0FBYyxFQUFFLElBQUksQ0FBQyxTQUFTLEVBQUUsQ0FBQyxDQUFDO0lBQ3ZELENBQUM7SUFFTyxDQUFDLGVBQWUsQ0FBQyxPQUFvQjtRQUN6QyxNQUFNLE9BQU8sR0FBRyxDQUFDLDBCQUFnQixDQUFDLFFBQVEsQ0FBQyxhQUFhLEVBQUUsR0FBRyxNQUFNLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxDQUFDLEdBQUcsSUFBSSxDQUFDO1FBQzlGLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxRQUFRLEVBQUUsQ0FBQyxFQUFFLE9BQU8sQ0FBQyxRQUFRLEdBQUMsT0FBTyxDQUFDLENBQUM7SUFFdkUsQ0FBQztDQUNKO0FBdkRELHFDQXVEQyJ9","assetPath":"Assets/Zepeto
+    Multiplay Component/ZepetoScript/Transform/AnimatorSyncHelper.ts","manifest":{"properties":[],"name":"AnimatorSyncHelper","description":""},"isCompiled":true}'
+  typescriptHash: e052b7c6eabd1836fdbcbf98b0f40e1c
+  onlyWriteTrigger: 0
