@@ -4,6 +4,7 @@ import {Room, RoomData} from "ZEPETO.Multiplay";
 import MultiplayManager from '../Common/MultiplayManager';
 import {ZepetoWorldMultiplay} from "ZEPETO.World";
 import SyncIndexManager from '../Common/SyncIndexManager';
+import TransformSyncHelper from '../Transform/TransformSyncHelper';
 
 export default class AnimatorSyncHelper extends ZepetoScriptBehaviour {
     //This synchronizes the animator when its state changes. 
@@ -27,9 +28,8 @@ export default class AnimatorSyncHelper extends ZepetoScriptBehaviour {
 
     private Start() {
         this._animator = this.GetComponentInChildren<Animator>();
-
-        SyncIndexManager.SyncIndex++;
-        this._Id = SyncIndexManager.SyncIndex.toString();
+        
+        this._Id = this.GetComponent<TransformSyncHelper>()?.Id ?? (SyncIndexManager.SyncIndex++).toString();
         this._multiplay = Object.FindObjectOfType<ZepetoWorldMultiplay>();
         this._multiplay.RoomJoined += (room: Room) => {
             this._room = room;
@@ -40,11 +40,10 @@ export default class AnimatorSyncHelper extends ZepetoScriptBehaviour {
     private Update(){
         if(!this._isMasterClient)
             return;
-        
-        if(this._previousShortNameHash != this._animator?.GetCurrentAnimatorStateInfo(0).shortNameHash){
-            this._stateInfo = this._animator?.GetCurrentAnimatorStateInfo(0);
-            this._previousShortNameHash = this._stateInfo.shortNameHash;
+
+        if(this._previousShortNameHash != this._animator.GetCurrentAnimatorStateInfo(0)?.shortNameHash){
             this.SendAnimator();
+            this._previousShortNameHash = this._stateInfo.shortNameHash;
         }
     }
 
@@ -52,9 +51,7 @@ export default class AnimatorSyncHelper extends ZepetoScriptBehaviour {
         if(null == this._room)
             this._room = MultiplayManager.instance.room;
         if(this._room.SessionId == ownerSessionId){
-            if(!this._isMasterClient) {
-                this._isMasterClient = true;
-            }
+            this._isMasterClient = true;
             this.SendAnimator();
         }
         else if(this._room.SessionId != ownerSessionId && this._isMasterClient) {
@@ -65,6 +62,7 @@ export default class AnimatorSyncHelper extends ZepetoScriptBehaviour {
     private SendAnimator() {
         console.log("send");
 
+        this._stateInfo = this._animator?.GetCurrentAnimatorStateInfo(0);
         const clipNameHash = this._stateInfo.shortNameHash;
         const clipNormalizedTime = this._stateInfo.normalizedTime;
         
