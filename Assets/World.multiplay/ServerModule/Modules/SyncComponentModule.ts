@@ -47,12 +47,12 @@ export default class SyncComponentModule extends IModule {
             }
         });
 
+        /** Sync Animaotr **/
         this.server.onMessage(MESSAGE.SyncAnimator, (client, message) => {
             const animator: SyncAnimator = {
                 Id: message.Id,
-                clipName: message.clipName,
-                clipTime: message.clipTime,
-                sendTime: message.sendTime
+                clipNameHash: message.clipNameHash,
+                clipNormalizedTime: message.clipNormalizedTime,
             };
             const masterClient = this.masterClient();
             if (masterClient !== null && masterClient !== undefined) {
@@ -197,9 +197,8 @@ interface syncTween {
 
 interface SyncAnimator {
     Id: string,
-    clipName: number,
-    clipTime: number,
-    sendTime: number,
+    clipNameHash: number,
+    clipNormalizedTime: number,
 }
 
 interface InstantiateObj{
