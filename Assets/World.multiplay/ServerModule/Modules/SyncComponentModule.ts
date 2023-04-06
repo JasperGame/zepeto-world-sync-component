@@ -14,7 +14,7 @@ export default class SyncComponentModule extends IModule {
             if (player) {
                 const animationParam = new ZepetoAnimationParam();
                 player.animationParam = Object.assign(animationParam, message.animationParam);
-                player.gestureName = message.gestureName;
+                player.gestureName = message.gestureName ?? null;
 
                 if (message.playerAdditionalValue) {
                     const pAdditionalValue = new PlayerAdditionalValue();
@@ -59,7 +59,7 @@ export default class SyncComponentModule extends IModule {
                 this.server.broadcast(MESSAGE.ResponseAnimator + message.Id, animator, {except: masterClient});
             }
         });
-        
+
         /** SyncTransform Util **/
         this.server.onMessage(MESSAGE.ChangeOwner, (client,message:string) => {
             this.server.broadcast(MESSAGE.ChangeOwner+message, client.sessionId);
@@ -219,6 +219,8 @@ enum MESSAGE {
     SyncPlayer = "SyncPlayer",
     SyncTransform = "SyncTransform",
     SyncTransformStatus = "SyncTransformStatus",
+    SyncAnimator = "SyncAnimator",
+    ResponseAnimator = "ResponseAnimator",
     ChangeOwner = "ChangeOwner",
     Instantiate = "Instantiate",
     RequestInstantiateCache = "RequestInstantiateCache",
@@ -243,6 +245,4 @@ enum MESSAGE {
     FirstPlayerGetIn = "FirstPlayerGetIn",
     CountDownStart = "CountDownStart",
     ResponseGameReport = "ResponseGameReport",
-    SyncAnimator = "SyncAnimator",
-    ResponseAnimator = "ResponseAnimator"
 }
