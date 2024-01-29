@@ -1,3 +1,7 @@
+> [!WARNING]  
+> This repository is **ARCHIVED**. <br/>
+> **Multiplay Sync Component is managed as a part of [ZEPETO-Modules](https://github.com/JasperGame/zepeto-modules)**.
+
 # Multiplay Sync Component (for ZepetoWorld)
 
 [English](./README.md) | [Korean](./README_KR.md)
